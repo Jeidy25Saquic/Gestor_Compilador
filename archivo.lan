@@ -1,0 +1,9 @@
+REG.USR(juan, "Juan Pérez", ROL.COORD);
+ING.USR(juan);
+CRE.TAR.IND(Implementar login) PRI.URG EST.PEN FEC(HOY + 2 DIAS);
+CRE.TAR.GRP(Diseñar BD) PRI.ALT EST.ACT FEC(2026-06-10);
+ASIG.TAR(Implementar login) ASIG.USR(juan);
+ETIQ.TAR(Implementar login) AGREGAR("seguridad", "frontend");
+CRE.LIS LIS.TIT("Sprint 1");
+AG.LIS("Sprint 1") EN.LIS(Implementar login);
+

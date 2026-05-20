@@ -1,0 +1,31 @@
+REG.USR(juana, "Juana Lopez", ROL.MIEM);
+ING.USR(juana);
+MENU;
+SALIR;
+REG.USR(luis, "Luis Perez", ROL.MIEM);
+ING.USR(luis);
+CRE.TAR.IND(Estudiar) PRI.ALT EST.PEN FEC(HOY + 1 DIA) DES("Repasar analisis");
+ASIG.TAR(Estudiar) ASIG.USR(luis);
+CAL(Estudiar, 90);
+
+REG.USR(ana, "Ana Diaz", ROL.COORD);
+REG.USR(juan, "Juan Soto", ROL.MIEM);
+ING.USR(ana);
+CRE.GRP(Alfa) ASIG.USR(ana) ASIG.USR(juan);
+CRE.TAR.GRP(Prototipo) FEC(2026-05-30) PRI.URG EST.ACT;
+ASIG.TAR(Prototipo) ASIG.USR(ana);
+
+REG.USR(maria, "Maria Gil", ROL.MIEM);
+ING.USR(maria);
+CRE.TAR.IND(Limpiar) EST.PEN;
+CRE.LIS LIS.TIT("Casa") LIS.DESC("Tareas hogar");
+AG.LIS("Casa") EN.LIS(Limpiar);
+VER.LIS("Casa");
+
+
+
+ING.USR(luis);
+CRE.TAR.IND(A) PRI.URG;
+CRE.TAR.IND(B) PRI.ALT;
+FILTRO.TAR(PRI.URG) VISTA("Mis_urgentes");
+VER.VISTA("Mis_urgentes");

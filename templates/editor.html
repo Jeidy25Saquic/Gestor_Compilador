@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor DSL - Gestor de Proyectos</title>
+    <!-- CodeMirror CSS & JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .CodeMirror {
+            height: 60vh;
+            border-radius: 0.75rem;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-4 py-8 max-w-5xl">
+        <div class="flex justify-between items-center mb-6">
+            <div>
+                <h1 class="text-3xl font-bold flex items-center gap-2">
+                    <i class="fas fa-code"></i> Editor DSL
+                </h1>
+                <p class="text-gray-400 mt-1">Escribe tu código de gestión de proyectos y ejecuta para ver el dashboard</p>
+            </div>
+            <button id="runBtn" class="bg-green-600 hover:bg-green-700 px-5 py-2 rounded-lg font-semibold transition shadow-lg flex items-center gap-2">
+                <i class="fas fa-play"></i> Ejecutar
+            </button>
+        </div>
+
+        <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
+            <textarea id="codeEditor" class="w-full">
+REG.USR("juan", "Juan Pérez", ROL.COORD);
+REG.USR("maria", "Maria López", ROL.MIEM);
+ING.USR("juan");
+CRE.TAR("Implementar login", PRI.ALT, FEC(HOY+2 DIAS), DES("Autenticación con JWT"), ASIG.USR("juan"));
+CRE.TAR("Diseñar base de datos", PRI.URG, FEC(HOY+1 SEMANA), ASIG.USR("maria"));
+ASIG.TAR("Implementar login", ASIG.USR("maria"));
+ETIQ.TAR("Implementar login", AGREGAR("backend", "seguridad"));
+CRE.GRP("backend", ASIG.USR("juan"));
+DIV.TAR("Implementar login", CRE.SUBTAR("frontend-login"), CRE.SUBTAR("api-auth"));
+CRE.LIS(LIS.TIT("Tareas críticas"), LIS.DESC("Lista de tareas urgentes"));
+AG.LIS("Tareas críticas", EN.LIS("Implementar login"));
+            </textarea>
+        </div>
+
+        <div id="errorMsg" class="mt-4 hidden p-3 bg-red-900 border border-red-700 rounded-lg text-red-200"></div>
+        <div id="successMsg" class="mt-4 hidden p-3 bg-green-900 border border-green-700 rounded-lg text-green-200"></div>
+
+        <div class="mt-6 text-center text-gray-500 text-sm">
+            <i class="fas fa-info-circle"></i> Al hacer clic en Ejecutar se abrirá el dashboard en una nueva pestaña.
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script>
+        // Inicializar CodeMirror
+        const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+            lineNumbers: true,
+            mode: "javascript",  // modo genérico, puedes personalizarlo
+            theme: "dracula",
+            indentUnit: 4,
+            tabSize: 4
+        });
+
+        // Función para ejecutar código
+        async function ejecutarCodigo() {
+            const codigo = editor.getValue();
+            const runBtn = document.getElementById('runBtn');
+            const errorDiv = document.getElementById('errorMsg');
+            const successDiv = document.getElementById('successMsg');
+
+            // Resetear mensajes
+            errorDiv.classList.add('hidden');
+            successDiv.classList.add('hidden');
+            runBtn.disabled = true;
+            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ejecutando...';
+
+            try {
+                const response = await fetch('/api/ejecutar', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ codigo: codigo })
+                });
+                const data = await response.json();
+                if (data.ok) {
+                    successDiv.classList.remove('hidden');
+                    successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Código válido. Abriendo dashboard...';
+                    // Abrir dashboard en nueva pestaña
+                    window.open('/', '_blank');
+                } else {
+                    errorDiv.classList.remove('hidden');
+                    errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error: ' + (data.error || 'Análisis fallido');
+                }
+            } catch (err) {
+                errorDiv.classList.remove('hidden');
+                errorDiv.innerHTML = '<i class="fas fa-bug"></i> Error de conexión: ' + err.message;
+            } finally {
+                runBtn.disabled = false;
+                runBtn.innerHTML = '<i class="fas fa-play"></i> Ejecutar';
+            }
+        }
+
+        document.getElementById('runBtn').addEventListener('click', ejecutarCodigo);
+    </script>
+</body>
+</html>
