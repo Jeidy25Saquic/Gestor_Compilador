@@ -1,5 +1,5 @@
 """
-Analizador Semantico - Lenguaje de Gestion de Proyectos (sin impresiones)
+Analizador Semantico - Lenguaje de Gestion de Proyectos
 """
 from sintactico import AnalizadorSintactico, Nodo
 import datetime
@@ -90,10 +90,6 @@ class TablaSimbolos:
     def log(self):
         return self._log
 
-    def imprimir(self):
-        # Silenciado
-        pass
-
 class AnalizadorSemantico:
     HOY = datetime.date.today()
     PRIORIDADES_VALIDAS = {"PRI.URG", "PRI.ALT", "PRI.MED", "PRI.BAJ"}
@@ -152,6 +148,8 @@ class AnalizadorSemantico:
         "SENT_IMPORTAR": "_importar",
         "SENT_EXPORTAR": "_exportar",
         "SENT_USAR_BIBLIOTECA": "_usar_bib",
+        "SENT_CAMBIAR_ESTADO": "_cambiar_estado",
+        "SENT_CAMBIAR_PRIORIDAD": "_cambiar_prioridad",
     }
 
     def _despachar(self, nodo):
@@ -231,6 +229,7 @@ class AnalizadorSemantico:
         if fecha and fecha < self.HOY:
             raise ErrorSemantico("E012", "R14/R15", f"Fecha '{fecha_str}' es anterior a hoy", sentencia, linea)
 
+    # ---------- Métodos existentes (se mantienen igual, solo se añaden los nuevos) ----------
     def _reg_usuario(self, nodo):
         nombre = self._valor_hijo(nodo, "USUARIO")
         if not nombre:
@@ -590,6 +589,60 @@ class AnalizadorSemantico:
         if nombre and not self.tabla.existe(nombre):
             self.tabla.agregar(nombre, "BIBLIOTECA", tipo="BIB", linea=linea)
 
-    def _imprimir_ok(self):
-        # Silenciado
-        pass
+    # ---------- Nuevos métodos ----------
+    def _cambiar_estado(self, nodo):
+        nombre = self._valor_hijo(nodo, "NOMBRE_TAREA")
+        sent = self._nombre_sentencia(nodo)
+        linea = getattr(nodo, 'linea', 0)
+        self._chk_tarea_existe(nombre, sent, linea)
+        # Obtener el nuevo estado (tercer hijo hoja)
+        nuevo_estado = None
+        for h in nodo.hijos:
+            if h.etiqueta in self.ESTADOS_VALIDOS:
+                nuevo_estado = h.etiqueta
+                break
+        if not nuevo_estado:
+            raise ErrorSemantico("E016", "R19", "No se especificó un estado válido", sent, linea)
+        # Verificar permisos: usuario activo debe ser el asignado o coordinador del grupo
+        usuario_act = self.tabla.usuario_activo()
+        tarea = self.tabla.obtener(nombre)
+        asignado = tarea.get("asignado_a", "—")
+        if asignado != "—" and usuario_act != asignado:
+            # Verificar si es coordinador de algún grupo al que pertenezca la tarea
+            grupo_ctx = tarea.get("contexto", "—")
+            if grupo_ctx != "—":
+                grupo = self.tabla.obtener(grupo_ctx)
+                if grupo and usuario_act == grupo.get("asignado_a"):
+                    pass  # permitido
+                else:
+                    raise ErrorSemantico("E017", "R20", f"Usuario '{usuario_act}' no tiene permiso para cambiar estado de la tarea '{nombre}'", sent, linea)
+            else:
+                raise ErrorSemantico("E017", "R20", f"Usuario '{usuario_act}' no tiene permiso para cambiar estado de la tarea '{nombre}'", sent, linea)
+        self.tabla.actualizar(nombre, "estado", nuevo_estado, "CAM.EST", linea)
+
+    def _cambiar_prioridad(self, nodo):
+        nombre = self._valor_hijo(nodo, "NOMBRE_TAREA")
+        sent = self._nombre_sentencia(nodo)
+        linea = getattr(nodo, 'linea', 0)
+        self._chk_tarea_existe(nombre, sent, linea)
+        nueva_prioridad = None
+        for h in nodo.hijos:
+            if h.etiqueta in self.PRIORIDADES_VALIDAS:
+                nueva_prioridad = h.etiqueta
+                break
+        if not nueva_prioridad:
+            raise ErrorSemantico("E018", "R21", "No se especificó una prioridad válida", sent, linea)
+        usuario_act = self.tabla.usuario_activo()
+        tarea = self.tabla.obtener(nombre)
+        asignado = tarea.get("asignado_a", "—")
+        if asignado != "—" and usuario_act != asignado:
+            grupo_ctx = tarea.get("contexto", "—")
+            if grupo_ctx != "—":
+                grupo = self.tabla.obtener(grupo_ctx)
+                if grupo and usuario_act == grupo.get("asignado_a"):
+                    pass
+                else:
+                    raise ErrorSemantico("E019", "R22", f"Usuario '{usuario_act}' no tiene permiso para cambiar prioridad de la tarea '{nombre}'", sent, linea)
+            else:
+                raise ErrorSemantico("E019", "R22", f"Usuario '{usuario_act}' no tiene permiso para cambiar prioridad de la tarea '{nombre}'", sent, linea)
+        self.tabla.actualizar(nombre, "prioridad", nueva_prioridad, "CAM.PRI", linea)

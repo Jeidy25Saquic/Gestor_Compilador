@@ -3,110 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor DSL - Gestor de Proyectos</title>
-    <!-- CodeMirror CSS & JS -->
+    <title>FlowForge | Editor DSL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/material-darker.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0E14;
+            color: #E8EDF2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background: #131722;
+            border-bottom: 1px solid #202534;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, #2D8C7C, #1C5C52);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .run-btn {
+            background: #2D8C7C;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .run-btn:hover { background: #1C5C52; transform: scale(0.98); }
+        .editor-container {
+            flex: 1;
+            padding: 1.5rem;
+        }
         .CodeMirror {
-            height: 60vh;
-            border-radius: 0.75rem;
+            height: 100%;
+            border-radius: 16px;
             font-size: 14px;
         }
+        .message-area {
+            padding: 0.8rem 2rem;
+            background: #131722;
+            border-top: 1px solid #202534;
+            font-size: 0.9rem;
+        }
+        .error { color: #E06C75; }
+        .success { color: #98C379; }
+        a { color: #2D8C7C; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
-    <div class="container mx-auto px-4 py-8 max-w-5xl">
-        <div class="flex justify-between items-center mb-6">
-            <div>
-                <h1 class="text-3xl font-bold flex items-center gap-2">
-                    <i class="fas fa-code"></i> Editor DSL
-                </h1>
-                <p class="text-gray-400 mt-1">Escribe tu código de gestión de proyectos y ejecuta para ver el dashboard</p>
-            </div>
-            <button id="runBtn" class="bg-green-600 hover:bg-green-700 px-5 py-2 rounded-lg font-semibold transition shadow-lg flex items-center gap-2">
-                <i class="fas fa-play"></i> Ejecutar
-            </button>
-        </div>
-
-        <div class="bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
-            <textarea id="codeEditor" class="w-full">
+<body>
+<div class="navbar">
+    <div class="logo">
+        <div class="logo-icon"><i class="fas fa-pen-nib"></i></div>
+        <span>FlowForge · Editor DSL</span>
+    </div>
+    <button id="runBtn" class="run-btn"><i class="fas fa-play"></i> Ejecutar y desplegar</button>
+</div>
+<div class="editor-container">
+    <textarea id="codeEditor">
+// === Ejemplo de proyecto ===
 REG.USR("juan", "Juan Pérez", ROL.COORD);
 REG.USR("maria", "Maria López", ROL.MIEM);
 ING.USR("juan");
+
 CRE.TAR("Implementar login", PRI.ALT, FEC(HOY+2 DIAS), DES("Autenticación con JWT"), ASIG.USR("juan"));
 CRE.TAR("Diseñar base de datos", PRI.URG, FEC(HOY+1 SEMANA), ASIG.USR("maria"));
 ASIG.TAR("Implementar login", ASIG.USR("maria"));
 ETIQ.TAR("Implementar login", AGREGAR("backend", "seguridad"));
+
 CRE.GRP("backend", ASIG.USR("juan"));
 DIV.TAR("Implementar login", CRE.SUBTAR("frontend-login"), CRE.SUBTAR("api-auth"));
+
 CRE.LIS(LIS.TIT("Tareas críticas"), LIS.DESC("Lista de tareas urgentes"));
 AG.LIS("Tareas críticas", EN.LIS("Implementar login"));
-            </textarea>
-        </div>
 
-        <div id="errorMsg" class="mt-4 hidden p-3 bg-red-900 border border-red-700 rounded-lg text-red-200"></div>
-        <div id="successMsg" class="mt-4 hidden p-3 bg-green-900 border border-green-700 rounded-lg text-green-200"></div>
+CAM.EST("Implementar login", EST.ACT);
+CAM.PRI("Diseñar base de datos", PRI.ALT);
+    </textarea>
+</div>
+<div id="message" class="message-area"></div>
 
-        <div class="mt-6 text-center text-gray-500 text-sm">
-            <i class="fas fa-info-circle"></i> Al hacer clic en Ejecutar se abrirá el dashboard en una nueva pestaña.
-        </div>
-    </div>
+<script>
+    const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+        lineNumbers: true,
+        mode: "javascript",
+        theme: "material-darker",
+        indentUnit: 4,
+        tabSize: 4
+    });
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <script>
-        // Inicializar CodeMirror
-        const editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
-            lineNumbers: true,
-            mode: "javascript",  // modo genérico, puedes personalizarlo
-            theme: "dracula",
-            indentUnit: 4,
-            tabSize: 4
-        });
+    async function ejecutar() {
+        const codigo = editor.getValue();
+        const msgDiv = document.getElementById('message');
+        const runBtn = document.getElementById('runBtn');
+        runBtn.disabled = true;
+        runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ejecutando...';
+        msgDiv.innerHTML = '';
 
-        // Función para ejecutar código
-        async function ejecutarCodigo() {
-            const codigo = editor.getValue();
-            const runBtn = document.getElementById('runBtn');
-            const errorDiv = document.getElementById('errorMsg');
-            const successDiv = document.getElementById('successMsg');
-
-            // Resetear mensajes
-            errorDiv.classList.add('hidden');
-            successDiv.classList.add('hidden');
-            runBtn.disabled = true;
-            runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ejecutando...';
-
-            try {
-                const response = await fetch('/api/ejecutar', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ codigo: codigo })
-                });
-                const data = await response.json();
-                if (data.ok) {
-                    successDiv.classList.remove('hidden');
-                    successDiv.innerHTML = '<i class="fas fa-check-circle"></i> Código válido. Abriendo dashboard...';
-                    // Abrir dashboard en nueva pestaña
-                    window.open('/', '_blank');
-                } else {
-                    errorDiv.classList.remove('hidden');
-                    errorDiv.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error: ' + (data.error || 'Análisis fallido');
-                }
-            } catch (err) {
-                errorDiv.classList.remove('hidden');
-                errorDiv.innerHTML = '<i class="fas fa-bug"></i> Error de conexión: ' + err.message;
-            } finally {
-                runBtn.disabled = false;
-                runBtn.innerHTML = '<i class="fas fa-play"></i> Ejecutar';
+        try {
+            const res = await fetch('/api/ejecutar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo })
+            });
+            const data = await res.json();
+            if (data.ok) {
+                msgDiv.innerHTML = '<span class="success"><i class="fas fa-check-circle"></i> Código válido. Abriendo dashboard...</span>';
+                window.open('/', '_blank');
+            } else {
+                msgDiv.innerHTML = `<span class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${data.error}</span>`;
             }
+        } catch (err) {
+            msgDiv.innerHTML = `<span class="error"><i class="fas fa-bug"></i> Conexión fallida: ${err.message}</span>`;
+        } finally {
+            runBtn.disabled = false;
+            runBtn.innerHTML = '<i class="fas fa-play"></i> Ejecutar y desplegar';
         }
+    }
 
-        document.getElementById('runBtn').addEventListener('click', ejecutarCodigo);
-    </script>
+    document.getElementById('runBtn').addEventListener('click', ejecutar);
+</script>
 </body>
 </html>

@@ -29,6 +29,10 @@ class AnalizadorLexico:
         return False
 
     def analizar(self, texto):
+        # Eliminar comentarios de línea // y bloques /* ... */
+        texto = re.sub(r'//.*?$', '', texto, flags=re.MULTILINE)
+        texto = re.sub(r'/\*.*?\*/', '', texto, flags=re.DOTALL)
+
         resultado = []
         texto = texto.replace("==", " == ").replace("!=", " != ")\
                      .replace(">=", " >= ").replace("<=", " <= ")

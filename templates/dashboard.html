@@ -2,105 +2,384 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Gestor de Proyectos DSL</title>
-    <!-- Tailwind CSS + Plugins -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- SortableJS para drag & drop -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>FlowForge | Dashboard</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Flatpickr para calendario -->
+    <!-- Flatpickr -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
-        /* Transiciones y estilos personalizados */
-        .task-card {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0E14;
+            color: #E8EDF2;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar elegante */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1A1F2A;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3E4A5F;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5A6B86;
+        }
+
+        /* Layout principal */
+        .app-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar premium */
+        .sidebar {
+            width: 280px;
+            background: rgba(18, 22, 30, 0.8);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            font-size: 1.5rem;
+            letter-spacing: -0.3px;
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #2D8C7C, #1C5C52);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-icon i {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+        }
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            color: #9AA4BF;
             transition: all 0.2s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .nav-item i {
+            width: 24px;
+            font-size: 1.2rem;
+        }
+        .nav-item.active {
+            background: rgba(45, 140, 124, 0.2);
+            color: #2D8C7C;
+            border-left: 3px solid #2D8C7C;
+        }
+        .nav-item:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.04);
+            color: #C8D0E0;
+        }
+
+        /* Botón de modo oscuro/claro simplificado */
+        .theme-toggle {
+            background: #1E2432;
+            border: none;
+            padding: 0.6rem;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #9AA4BF;
+            transition: 0.2s;
+        }
+        .theme-toggle:hover {
+            background: #2A3142;
+            color: white;
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 2rem 2.5rem;
+            overflow-y: auto;
+        }
+
+        /* Header */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .page-title h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.4px;
+        }
+        .page-title p {
+            color: #7E89A3;
+            font-size: 0.9rem;
+            margin-top: 0.2rem;
+        }
+        .refresh-btn {
+            background: #1E2432;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            color: #E8EDF2;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .refresh-btn:hover {
+            background: #2A3142;
+        }
+
+        /* Tarjetas / contenedores */
+        .card {
+            background: #131722;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Kanban columns */
+        .kanban-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .kanban-col {
+            background: #0E121B;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 1px solid #202534;
+        }
+        .kanban-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid #202534;
+            font-weight: 600;
+        }
+        .task-card {
+            background: #1A1F2A;
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
             cursor: grab;
+            transition: all 0.2s;
+            border-left: 3px solid #2D8C7C;
         }
         .task-card:active {
             cursor: grabbing;
         }
         .task-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            background: #222837;
+            transform: translateX(2px);
         }
-        .kanban-col {
-            background: #f9fafb;
-            border-radius: 1rem;
-            min-height: 400px;
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
-        .dark .kanban-col {
-            background: #1f2937;
+        .task-meta {
+            font-size: 0.75rem;
+            color: #7E89A3;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
-        .transition-smooth {
-            transition: all 0.3s ease;
+        .tag {
+            background: #2A3142;
+            padding: 0.2rem 0.5rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
         }
-        .tab-active {
-            border-bottom: 2px solid #3b82f6;
-            color: #3b82f6;
+
+        /* Tabla de lista */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
         }
-        /* Scroll suave */
-        html {
-            scroll-behavior: smooth;
+        .data-table th, .data-table td {
+            text-align: left;
+            padding: 1rem 0.5rem;
+            border-bottom: 1px solid #202534;
+        }
+        .data-table th {
+            font-weight: 600;
+            color: #9AA4BF;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+        .status-PEN { background: #C49F47; color: #1E1A0C; }
+        .status-ACT { background: #2D8C7C; color: white; }
+        .status-REV { background: #7C5E9A; color: white; }
+        .status-FIN { background: #3A7B5C; color: white; }
+
+        /* Gráficos */
+        .chart-container {
+            background: #131722;
+            border-radius: 20px;
+            padding: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .kanban-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sidebar {
+                width: 240px;
+            }
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .app-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                padding: 1rem;
+            }
+            .nav-menu {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .kanban-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body x-data="app()" x-init="init()" :class="darkMode ? 'dark' : ''" class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-    <div class="container mx-auto px-4 py-6 max-w-7xl">
-        <!-- Cabecera -->
-        <div class="flex flex-wrap justify-between items-center mb-8 gap-4">
-            <div>
-                <h1 class="text-4xl font-extrabold text-gray-800 dark:text-white flex items-center gap-3">
-                    <i class="fas fa-tasks text-blue-500"></i>
-                    Gestor DSL
-                </h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Panel de control del proyecto</p>
-            </div>
-            <div class="flex gap-3">
-                <button @click="toggleDarkMode" class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition">
-                    <i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
-                    <span x-text="darkMode ? 'Modo claro' : 'Modo oscuro'"></span>
-                </button>
-                <button @click="refreshData" class="px-4 py-2 rounded-lg bg-blue-500 text-white shadow-md hover:bg-blue-600 transition">
-                    <i class="fas fa-sync-alt"></i> Recargar
-                </button>
-            </div>
+<body>
+<div x-data="dashboardApp()" x-init="init()" class="app-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fas fa-code-branch"></i></div>
+            <span>FlowForge</span>
         </div>
-
-        <!-- Pestañas principales -->
-        <div class="flex flex-wrap gap-2 border-b border-gray-200 dark:border-gray-700 mb-6">
-            <button @click="activeTab = 'kanban'" :class="{'tab-active': activeTab === 'kanban'}" class="px-5 py-2 font-medium rounded-t-lg transition">📌 Kanban</button>
-            <button @click="activeTab = 'lista'" :class="{'tab-active': activeTab === 'lista'}" class="px-5 py-2 font-medium rounded-t-lg transition">📋 Lista</button>
-            <button @click="activeTab = 'calendario'" :class="{'tab-active': activeTab === 'calendario'}" class="px-5 py-2 font-medium rounded-t-lg transition">📅 Calendario</button>
-            <button @click="activeTab = 'graficos'" :class="{'tab-active': activeTab === 'graficos'}" class="px-5 py-2 font-medium rounded-t-lg transition">📊 Gráficos</button>
-            <button @click="activeTab = 'usuarios'" :class="{'tab-active': activeTab === 'usuarios'}" class="px-5 py-2 font-medium rounded-t-lg transition">👥 Usuarios</button>
-        </div>
-
-        <!-- Contenido de pestañas -->
-        <div x-show="activeTab === 'kanban'" x-transition.opacity.duration.300ms>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-5" id="kanban-board">
-                <!-- Se llena dinámicamente -->
+        <div class="nav-menu">
+            <div class="nav-item" :class="{ 'active': activeTab === 'kanban' }" @click="activeTab = 'kanban'">
+                <i class="fas fa-columns"></i> <span>Kanban</span>
+            </div>
+            <div class="nav-item" :class="{ 'active': activeTab === 'lista' }" @click="activeTab = 'lista'">
+                <i class="fas fa-list-ul"></i> <span>Lista</span>
+            </div>
+            <div class="nav-item" :class="{ 'active': activeTab === 'calendario' }" @click="activeTab = 'calendario'">
+                <i class="fas fa-calendar-alt"></i> <span>Calendario</span>
+            </div>
+            <div class="nav-item" :class="{ 'active': activeTab === 'graficos' }" @click="activeTab = 'graficos'">
+                <i class="fas fa-chart-pie"></i> <span>Analytics</span>
+            </div>
+            <div class="nav-item" :class="{ 'active': activeTab === 'usuarios' }" @click="activeTab = 'usuarios'">
+                <i class="fas fa-users"></i> <span>Equipo</span>
             </div>
         </div>
+        <button class="theme-toggle" @click="toggleDarkMode">
+            <i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
+        </button>
+    </aside>
 
-        <div x-show="activeTab === 'lista'" x-transition.opacity.duration.300ms>
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5">
-                <div class="flex flex-wrap gap-4 mb-4 justify-between items-center">
-                    <input type="text" placeholder="Buscar tarea..." x-model="filtroLista" class="px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 w-64">
-                    <select x-model="filtroPrioridad" class="px-3 py-2 border rounded-lg dark:bg-gray-700">
+    <!-- Main -->
+    <main class="main-content">
+        <div class="page-header">
+            <div class="page-title">
+                <h1>Panel de control</h1>
+                <p>Gestión centralizada de tareas, equipos y progreso</p>
+            </div>
+            <button class="refresh-btn" @click="refreshData"><i class="fas fa-sync-alt"></i> Sincronizar</button>
+        </div>
+
+        <!-- Kanban -->
+        <div x-show="activeTab === 'kanban'" x-cloak>
+            <div class="kanban-grid" id="kanban-board"></div>
+        </div>
+
+        <!-- Lista -->
+        <div x-show="activeTab === 'lista'" x-cloak>
+            <div class="card">
+                <div class="flex gap-4 mb-6 flex-wrap">
+                    <input type="text" placeholder="Buscar tarea..." x-model="filtroLista" class="bg-[#1E2432] border-none rounded-lg px-4 py-2 text-sm flex-1 min-w-[200px]">
+                    <select x-model="filtroPrioridad" class="bg-[#1E2432] border-none rounded-lg px-4 py-2 text-sm">
                         <option value="">Todas las prioridades</option>
                         <option value="PRI.URG">Urgente</option>
                         <option value="PRI.ALT">Alta</option>
                         <option value="PRI.MED">Media</option>
                         <option value="PRI.BAJ">Baja</option>
                     </select>
-                    <select x-model="filtroEstado" class="px-3 py-2 border rounded-lg dark:bg-gray-700">
+                    <select x-model="filtroEstado" class="bg-[#1E2432] border-none rounded-lg px-4 py-2 text-sm">
                         <option value="">Todos los estados</option>
                         <option value="EST.PEN">Pendiente</option>
                         <option value="EST.ACT">Activa</option>
@@ -109,24 +388,18 @@
                     </select>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <table class="data-table">
                         <thead>
-                            <tr>
-                                <th class="px-4 py-2 text-left">Nombre</th>
-                                <th class="px-4 py-2 text-left">Estado</th>
-                                <th class="px-4 py-2 text-left">Prioridad</th>
-                                <th class="px-4 py-2 text-left">Fecha límite</th>
-                                <th class="px-4 py-2 text-left">Asignado</th>
-                            </tr>
+                            <tr><th>Nombre</th><th>Estado</th><th>Prioridad</th><th>Fecha límite</th><th>Asignado</th></tr>
                         </thead>
                         <tbody>
-                            <template x-for="tarea in tareasFiltradas" :key="tarea.nombre">
-                                <tr class="border-b dark:border-gray-700">
-                                    <td class="px-4 py-2 font-medium" x-text="tarea.nombre"></td>
-                                    <td class="px-4 py-2"><span x-text="tarea.estado" class="px-2 py-1 rounded-full text-xs" :class="{'bg-yellow-100 text-yellow-800': tarea.estado === 'EST.PEN', 'bg-blue-100 text-blue-800': tarea.estado === 'EST.ACT', 'bg-purple-100 text-purple-800': tarea.estado === 'EST.REV', 'bg-green-100 text-green-800': tarea.estado === 'EST.FIN'}"></span></td>
-                                    <td class="px-4 py-2" x-text="tarea.prioridad"></td>
-                                    <td class="px-4 py-2" x-text="tarea.fecha_limite || '—'"></td>
-                                    <td class="px-4 py-2" x-text="tarea.asignado_a || '—'"></td>
+                            <template x-for="t in tareasFiltradas" :key="t.nombre">
+                                <tr>
+                                    <td x-text="t.nombre"></td>
+                                    <td><span class="status-badge" :class="'status-'+t.estado.replace('EST.', '')" x-text="t.estado"></span></td>
+                                    <td x-text="t.prioridad"></td>
+                                    <td x-text="t.fecha_limite || '—'"></td>
+                                    <td x-text="t.asignado_a || '—'"></td>
                                 </tr>
                             </template>
                         </tbody>
@@ -135,222 +408,166 @@
             </div>
         </div>
 
-        <div x-show="activeTab === 'calendario'" x-transition.opacity.duration.300ms>
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5">
+        <!-- Calendario -->
+        <div x-show="activeTab === 'calendario'" x-cloak>
+            <div class="card">
                 <div id="calendario"></div>
             </div>
         </div>
 
-        <div x-show="activeTab === 'graficos'" x-transition.opacity.duration.300ms>
+        <!-- Gráficos -->
+        <div x-show="activeTab === 'graficos'" x-cloak>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5">
-                    <h3 class="text-xl font-bold mb-3">Progreso del proyecto</h3>
-                    <canvas id="progressChart" width="400" height="400"></canvas>
-                </div>
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5">
-                    <h3 class="text-xl font-bold mb-3">Distribución por prioridad</h3>
-                    <canvas id="priorityChart" width="400" height="400"></canvas>
-                </div>
+                <div class="chart-container"><canvas id="progressChart"></canvas></div>
+                <div class="chart-container"><canvas id="priorityChart"></canvas></div>
             </div>
         </div>
 
-        <div x-show="activeTab === 'usuarios'" x-transition.opacity.duration.300ms>
+        <!-- Usuarios y grupos -->
+        <div x-show="activeTab === 'usuarios'" x-cloak>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5">
-                    <h3 class="text-xl font-bold mb-3">Usuarios registrados</h3>
-                    <ul>
+                <div class="card"><h3 class="text-lg font-semibold mb-4">Usuarios activos</h3>
+                    <ul class="space-y-3">
                         <template x-for="u in usuarios" :key="u.nombre">
-                            <li class="flex justify-between py-2 border-b dark:border-gray-700">
-                                <span><i class="fas fa-user-circle"></i> <span x-text="u.nombre"></span></span>
-                                <span class="text-sm" :class="{'text-green-500': u.sesion === 'activa', 'text-gray-500': u.sesion !== 'activa'}">
-                                    <i class="fas" :class="u.sesion === 'activa' ? 'fa-circle' : 'fa-circle'"></i>
-                                    <span x-text="u.sesion === 'activa' ? 'Activo' : 'Inactivo'"></span>
-                                </span>
-                            </li>
+                            <li class="flex justify-between items-center"><span><i class="fas fa-circle text-[10px] mr-2" :class="u.sesion === 'activa' ? 'text-green-500' : 'text-gray-500'"></i> <span x-text="u.nombre"></span></span><span class="text-sm text-gray-400" x-text="u.rol"></span></li>
                         </template>
                     </ul>
                 </div>
-                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-5">
-                    <h3 class="text-xl font-bold mb-3">Grupos</h3>
+                <div class="card"><h3 class="text-lg font-semibold mb-4">Grupos de trabajo</h3>
                     <template x-for="g in grupos" :key="g.nombre">
-                        <div class="mb-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                            <div class="font-bold" x-text="g.nombre"></div>
-                            <div class="text-sm text-gray-600 dark:text-gray-300">Miembros: <span x-text="g.miembros.join(', ') || 'Ninguno'"></span></div>
-                        </div>
+                        <div class="mb-3 p-3 bg-[#1E2432] rounded-xl"><div class="font-medium" x-text="g.nombre"></div><div class="text-sm text-gray-400">Miembros: <span x-text="g.miembros.join(', ') || '—'"></span></div></div>
                     </template>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
+</div>
 
-    <script>
-        function app() {
-            return {
-                activeTab: 'kanban',
-                darkMode: false,
-                tareas: [],
-                usuarios: [],
-                grupos: [],
-                listas: [],
-                vistas: [],
-                stats: {},
-                filtroLista: '',
-                filtroPrioridad: '',
-                filtroEstado: '',
-                progressChart: null,
-                priorityChart: null,
-                calendar: null,
-                async init() {
-                    await this.fetchData();
-                    this.$watch('activeTab', (value) => {
-                        if (value === 'graficos') this.renderCharts();
-                        if (value === 'calendario') this.initCalendar();
+<script>
+    function dashboardApp() {
+        return {
+            activeTab: 'kanban',
+            darkMode: false,
+            tareas: [],
+            usuarios: [],
+            grupos: [],
+            filtroLista: '',
+            filtroPrioridad: '',
+            filtroEstado: '',
+            progressChart: null,
+            priorityChart: null,
+            calendar: null,
+            async init() {
+                await this.fetchData();
+                this.$watch('activeTab', (val) => {
+                    if (val === 'graficos') this.renderCharts();
+                    if (val === 'calendario') this.initCalendar();
+                });
+            },
+            async fetchData() {
+                const res = await fetch('/api/datos');
+                const data = await res.json();
+                this.tareas = data.tareas;
+                this.usuarios = data.usuarios;
+                this.grupos = data.grupos;
+                this.stats = data.stats;
+                this.renderKanban();
+                this.initSortable();
+                if (this.activeTab === 'graficos') this.renderCharts();
+                if (this.activeTab === 'calendario') this.initCalendar();
+            },
+            refreshData() { this.fetchData(); },
+            renderKanban() {
+                const estados = ['EST.PEN', 'EST.ACT', 'EST.REV', 'EST.FIN'];
+                const titulos = { 'EST.PEN':'Pendiente', 'EST.ACT':'En curso', 'EST.REV':'Revisión', 'EST.FIN':'Finalizada' };
+                let html = '';
+                for (let est of estados) {
+                    const tareasFilt = this.tareas.filter(t => t.estado === est);
+                    html += `<div class="kanban-col" data-status="${est}"><div class="kanban-header"><span>${titulos[est]}</span><span class="text-xs bg-[#2A3142] px-2 py-1 rounded-full">${tareasFilt.length}</span></div><div id="col-${est}" class="space-y-2">`;
+                    tareasFilt.forEach(t => {
+                        html += `<div class="task-card" data-id="${t.nombre}" data-estado="${t.estado}">
+                                    <div class="task-title">${this.escapeHtml(t.nombre)}</div>
+                                    <div class="task-meta"><span>${t.prioridad || 'Sin prioridad'}</span><span>📅 ${t.fecha_limite || '—'}</span></div>
+                                    ${t.etiquetas.length ? `<div class="flex gap-1 mt-2">${t.etiquetas.map(e => `<span class="tag">${e}</span>`).join('')}</div>` : ''}
+                                 </div>`;
                     });
-                },
-                async fetchData() {
-                    const res = await fetch('/api/datos');
-                    const data = await res.json();
-                    this.tareas = data.tareas;
-                    this.usuarios = data.usuarios;
-                    this.grupos = data.grupos;
-                    this.listas = data.listas;
-                    this.vistas = data.vistas;
-                    this.stats = data.stats;
-                    this.renderKanban();
-                    this.initSortable();
-                    if (this.activeTab === 'graficos') this.renderCharts();
-                    if (this.activeTab === 'calendario') this.initCalendar();
-                },
-                refreshData() {
-                    this.fetchData();
-                },
-                renderKanban() {
-                    const estadosOrden = ['EST.PEN', 'EST.ACT', 'EST.REV', 'EST.FIN'];
-                    const nombresEstados = {
-                        'EST.PEN': '📌 Pendiente',
-                        'EST.ACT': '⚙️ En curso',
-                        'EST.REV': '🔍 Revisión',
-                        'EST.FIN': '✅ Finalizada'
-                    };
-                    let boardHtml = '';
-                    for (let est of estadosOrden) {
-                        const tareasFilt = this.tareas.filter(t => t.estado === est);
-                        boardHtml += `
-                            <div class="kanban-col p-3" data-status="${est}">
-                                <h3 class="font-bold text-lg mb-3 flex justify-between">
-                                    ${nombresEstados[est]}
-                                    <span class="text-sm bg-gray-200 dark:bg-gray-600 rounded-full px-2">${tareasFilt.length}</span>
-                                </h3>
-                                <div class="space-y-2" id="col-${est}">
-                                    ${tareasFilt.map(t => `
-                                        <div class="task-card bg-white dark:bg-gray-800 p-3 rounded-lg shadow cursor-move" data-id="${t.nombre}" data-estado="${t.estado}">
-                                            <div class="font-semibold">${this.escapeHtml(t.nombre)}</div>
-                                            <div class="text-sm text-gray-500">${t.prioridad || 'Sin prioridad'} | ${t.asignado_a || 'Sin asignar'}</div>
-                                            <div class="text-xs">📅 ${t.fecha_limite || 'Sin fecha'}</div>
-                                            ${t.etiquetas.length ? `<div class="flex flex-wrap gap-1 mt-2"><span class="text-xs bg-gray-200 dark:bg-gray-700 rounded px-1">${t.etiquetas.join('</span><span class="text-xs bg-gray-200 dark:bg-gray-700 rounded px-1">')}</span></div>` : ''}
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    }
-                    document.getElementById('kanban-board').innerHTML = boardHtml;
-                    this.initSortable();
-                },
-                initSortable() {
-                    const cols = document.querySelectorAll('.kanban-col > div');
-                    cols.forEach(col => {
-                        new Sortable(col, {
-                            group: 'shared',
-                            animation: 200,
-                            onEnd: (evt) => {
-                                const nuevaColumna = evt.to.parentElement.getAttribute('data-status');
-                                const tareaId = evt.item.getAttribute('data-id');
-                                // Actualizar estado en el frontend (no persiste, pero se ve bien)
-                                const tarea = this.tareas.find(t => t.nombre === tareaId);
-                                if (tarea) {
+                    html += `</div></div>`;
+                }
+                document.getElementById('kanban-board').innerHTML = html;
+                this.initSortable();
+            },
+            initSortable() {
+                const cols = document.querySelectorAll('.kanban-col > div');
+                cols.forEach(col => {
+                    new Sortable(col, {
+                        group: 'shared',
+                        animation: 200,
+                        onEnd: async (evt) => {
+                            const nuevaColumna = evt.to.parentElement.getAttribute('data-status');
+                            const tareaId = evt.item.getAttribute('data-id');
+                            const tarea = this.tareas.find(t => t.nombre === tareaId);
+                            if (tarea && tarea.estado !== nuevaColumna) {
+                                // Persistir cambio en backend
+                                const res = await fetch('/api/mover_tarea', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ nombre: tareaId, estado: nuevaColumna })
+                                });
+                                if (res.ok) {
                                     tarea.estado = nuevaColumna;
-                                    // Opcional: mostrar un pequeño toast
-                                    console.log(`Tarea ${tareaId} movida a ${nuevaColumna}`);
+                                    this.renderKanban();
+                                } else {
+                                    console.error('Error al mover tarea');
+                                    this.renderKanban(); // revertir visualmente
                                 }
-                                this.renderKanban(); // re-render para mantener sincronía
-                            }
-                        });
-                    });
-                },
-                renderCharts() {
-                    const ctxProgress = document.getElementById('progressChart').getContext('2d');
-                    if (this.progressChart) this.progressChart.destroy();
-                    this.progressChart = new Chart(ctxProgress, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['Completadas', 'Pendientes'],
-                            datasets: [{
-                                data: [this.stats.completadas, this.stats.pendientes],
-                                backgroundColor: ['#10b981', '#f59e0b'],
-                                borderWidth: 0
-                            }]
-                        },
-                        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
-                    });
-                    const ctxPriority = document.getElementById('priorityChart').getContext('2d');
-                    if (this.priorityChart) this.priorityChart.destroy();
-                    this.priorityChart = new Chart(ctxPriority, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Urgente', 'Alta', 'Media', 'Baja'],
-                            datasets: [{
-                                label: 'Cantidad de tareas',
-                                data: [this.stats.prioridades.PRI.URG, this.stats.prioridades.PRI.ALT, this.stats.prioridades.PRI.MED, this.stats.prioridades.PRI.BAJ],
-                                backgroundColor: '#3b82f6'
-                            }]
-                        },
-                        options: { responsive: true, scales: { y: { beginAtZero: true, stepSize: 1 } } }
-                    });
-                },
-                initCalendar() {
-                    if (this.calendar) this.calendar.destroy();
-                    const fechas = this.tareas.filter(t => t.fecha_limite).map(t => ({ title: t.nombre, date: t.fecha_limite }));
-                    this.calendar = flatpickr("#calendario", {
-                        inline: true,
-                        mode: "multiple",
-                        dateFormat: "Y-m-d",
-                        defaultDate: fechas.map(f => f.date),
-                        onDayCreate: (dObj, dStr, fp, dayElem) => {
-                            const dateStr = dayElem.dateObj.toISOString().slice(0,10);
-                            const tareasDia = fechas.filter(f => f.date === dateStr);
-                            if (tareasDia.length) {
-                                dayElem.style.backgroundColor = '#3b82f6';
-                                dayElem.style.color = 'white';
-                                dayElem.style.borderRadius = '50%';
-                                dayElem.title = tareasDia.map(t => t.title).join('\n');
                             }
                         }
                     });
-                },
-                toggleDarkMode() {
-                    this.darkMode = !this.darkMode;
-                    document.documentElement.classList.toggle('dark', this.darkMode);
-                },
-                escapeHtml(str) {
-                    if (!str) return '';
-                    return str.replace(/[&<>]/g, function(m) {
-                        if (m === '&') return '&amp;';
-                        if (m === '<') return '&lt;';
-                        if (m === '>') return '&gt;';
-                        return m;
-                    });
-                },
-                get tareasFiltradas() {
-                    return this.tareas.filter(t => {
-                        const matchNombre = t.nombre.toLowerCase().includes(this.filtroLista.toLowerCase());
-                        const matchPrioridad = this.filtroPrioridad === '' || t.prioridad === this.filtroPrioridad;
-                        const matchEstado = this.filtroEstado === '' || t.estado === this.filtroEstado;
-                        return matchNombre && matchPrioridad && matchEstado;
-                    });
-                }
+                });
+            },
+            renderCharts() {
+                if (this.progressChart) this.progressChart.destroy();
+                const ctx1 = document.getElementById('progressChart').getContext('2d');
+                this.progressChart = new Chart(ctx1, {
+                    type: 'doughnut',
+                    data: { labels: ['Completadas', 'Pendientes'], datasets: [{ data: [this.stats.completadas, this.stats.pendientes], backgroundColor: ['#2D8C7C', '#C49F47'], borderWidth: 0 }] },
+                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#E8EDF2' } } } }
+                });
+                if (this.priorityChart) this.priorityChart.destroy();
+                const ctx2 = document.getElementById('priorityChart').getContext('2d');
+                this.priorityChart = new Chart(ctx2, {
+                    type: 'bar',
+                    data: { labels: ['Urgente', 'Alta', 'Media', 'Baja'], datasets: [{ label: 'Tareas', data: [this.stats.prioridades.PRI.URG, this.stats.prioridades.PRI.ALT, this.stats.prioridades.PRI.MED, this.stats.prioridades.PRI.BAJ], backgroundColor: '#2D8C7C', borderRadius: 8 }] },
+                    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#2A3142' }, ticks: { color: '#9AA4BF' } }, x: { ticks: { color: '#E8EDF2' } } } }
+                });
+            },
+            initCalendar() {
+                if (this.calendar) this.calendar.destroy();
+                const fechas = this.tareas.filter(t => t.fecha_limite).map(t => ({ title: t.nombre, date: t.fecha_limite }));
+                flatpickr("#calendario", {
+                    inline: true, mode: "multiple", dateFormat: "Y-m-d", theme: "dark",
+                    defaultDate: fechas.map(f => f.date),
+                    onDayCreate: (dObj, dStr, fp, dayElem) => {
+                        const dateStr = dayElem.dateObj.toISOString().slice(0,10);
+                        const tareasDia = fechas.filter(f => f.date === dateStr);
+                        if (tareasDia.length) { dayElem.style.backgroundColor = '#2D8C7C'; dayElem.style.borderRadius = '50%'; dayElem.title = tareasDia.map(t => t.title).join('\n'); }
+                    }
+                });
+            },
+            toggleDarkMode() {
+                this.darkMode = !this.darkMode;
+                document.body.style.background = this.darkMode ? '#FFFFFF' : '#0B0E14';
+                document.body.style.color = this.darkMode ? '#1A1F2A' : '#E8EDF2';
+            },
+            escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); },
+            get tareasFiltradas() {
+                return this.tareas.filter(t => t.nombre.toLowerCase().includes(this.filtroLista.toLowerCase()) &&
+                    (this.filtroPrioridad === '' || t.prioridad === this.filtroPrioridad) &&
+                    (this.filtroEstado === '' || t.estado === this.filtroEstado));
             }
         }
-    </script>
+    }
+</script>
+<style>[x-cloak] { display: none !important; }</style>
 </body>
 </html>

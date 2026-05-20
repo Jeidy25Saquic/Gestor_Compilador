@@ -19,10 +19,6 @@ class Nodo:
     def a_dict(self):
         return {"nombre": self.etiqueta, "linea": self.linea, "hijos": [h.a_dict() for h in self.hijos]}
 
-    def imprimir(self, prefijo="", es_ultimo=True):
-        # Método opcional, no se usa en el flujo principal
-        pass
-
     def a_texto(self, prefijo="", es_ultimo=True):
         conector = "└── " if es_ultimo else "├── "
         linea_info = f" (L{self.linea})" if self.linea > 0 else ""
@@ -138,8 +134,40 @@ class AnalizadorSintactico:
         "COM.ASIG": "sent_comentario", "ENV.MSG": "sent_env_msg", "ENV.ENL": "sent_env_enl",
         "VER.MSG": "sent_ver_msg", "IMPORT": "sent_import", "EXPORTAR.TAR": "sent_exportar",
         "USAR.BIB": "sent_usar_bib",
+        "CAM.EST": "sent_cambiar_estado",
+        "CAM.PRI": "sent_cambiar_prioridad",
     }
 
+    # ---------- Nuevas sentencias ----------
+    def sent_cambiar_estado(self):
+        s = Nodo("SENT_CAMBIAR_ESTADO", linea=self.linea_actual())
+        s.hoja(self.consumir("CAM.EST"), self.linea_actual())
+        self.abrir(s)
+        self.arg_texto_o_cadena(s, "NOMBRE_TAREA")
+        self.coma(s)
+        estado = self.lexema()
+        if estado not in ("EST.PEN", "EST.ACT", "EST.REV", "EST.COR", "EST.APROB", "EST.RECH", "EST.FIN"):
+            raise ErrorSintactico(f"Estado inválido: {estado}", self.linea_actual())
+        s.hoja(self.avanzar()[0], self.linea_actual())
+        self.cerrar(s)
+        self.punto_coma(s)
+        return s
+
+    def sent_cambiar_prioridad(self):
+        s = Nodo("SENT_CAMBIAR_PRIORIDAD", linea=self.linea_actual())
+        s.hoja(self.consumir("CAM.PRI"), self.linea_actual())
+        self.abrir(s)
+        self.arg_texto_o_cadena(s, "NOMBRE_TAREA")
+        self.coma(s)
+        prioridad = self.lexema()
+        if prioridad not in ("PRI.URG", "PRI.ALT", "PRI.MED", "PRI.BAJ"):
+            raise ErrorSintactico(f"Prioridad inválida: {prioridad}", self.linea_actual())
+        s.hoja(self.avanzar()[0], self.linea_actual())
+        self.cerrar(s)
+        self.punto_coma(s)
+        return s
+
+    # ---------- Métodos auxiliares existentes (se mantienen igual) ----------
     def abrir(self, nodo):
         nodo.hoja(self.consumir("("), self.linea_actual())
 
@@ -314,7 +342,7 @@ class AnalizadorSintactico:
             self.condicion_simple(cc)
         return cc
 
-    # ---------- SENTENCIAS CONCRETAS ----------
+    # ---------- SENTENCIAS CONCRETAS (se mantienen igual, solo se listan las cabeceras) ----------
     def sent_reg_usr(self):
         s = Nodo("SENT_REG_USUARIO", linea=self.linea_actual())
         s.hoja(self.consumir("REG.USR"), self.linea_actual())

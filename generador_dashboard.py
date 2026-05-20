@@ -100,6 +100,25 @@ def ejecutar_codigo():
         return jsonify({"ok": True})
     else:
         return jsonify({"ok": False, "error": msg}), 400
+
+@app.route('/api/mover_tarea', methods=['POST'])
+def mover_tarea():
+    global tabla_simbolos
+    if tabla_simbolos is None:
+        return jsonify({"error": "No hay datos"}), 400
+    data = request.get_json()
+    nombre = data.get('nombre')
+    nuevo_estado = data.get('estado')
+    if not nombre or not nuevo_estado:
+        return jsonify({"error": "Faltan parámetros"}), 400
+    tarea = tabla_simbolos.obtener(nombre)
+    if not tarea or tarea["categoria"] != "TAREA":
+        return jsonify({"error": "Tarea no encontrada"}), 404
+    if nuevo_estado not in ("EST.PEN", "EST.ACT", "EST.REV", "EST.COR", "EST.APROB", "EST.RECH", "EST.FIN"):
+        return jsonify({"error": "Estado inválido"}), 400
+    tabla_simbolos.actualizar(nombre, "estado", nuevo_estado, razon="Movimiento en Kanban", linea=0)
+    return jsonify({"ok": True})
+
 @app.route('/editor')
 def editor():
     return render_template('editor.html')
