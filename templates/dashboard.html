@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>FlowForge | Dashboard</title>
+    <title>Nexus | Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -305,7 +305,7 @@
     <aside class="sidebar">
         <div class="logo-area">
             <div class="logo-icon"><i class="fas fa-code-branch"></i></div>
-            <span>FlowForge</span>
+            <span>NEXUS</span>
         </div>
         <div class="nav-menu">
             <div class="nav-item" :class="{'active': activeTab==='kanban'}" @click="activeTab='kanban'"><i class="fas fa-columns"></i><span>Kanban</span></div>
@@ -518,28 +518,39 @@
             </div>
         </div>
     </main>
-</div>
 
-<!-- MODAL DE DETALLES DE TAREA -->
-<div id="taskModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header"><h2 x-text="tareaSeleccionada?.nombre || 'Detalles de tarea'"></h2><button class="modal-close" @click="cerrarModal">&times;</button></div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
-            <div><label style="color:#9AA4BF;font-size:0.85rem;">Estado</label><select x-model="tareaSeleccionada.estado" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"><option value="EST.PEN">Pendiente</option><option value="EST.ACT">En curso</option><option value="EST.REV">Revisión</option><option value="EST.FIN">Finalizada</option></select></div>
-            <div><label style="color:#9AA4BF;font-size:0.85rem;">Prioridad</label><select x-model="tareaSeleccionada.prioridad" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"><option value="PRI.URG">Urgente</option><option value="PRI.ALT">Alta</option><option value="PRI.MED">Media</option><option value="PRI.BAJ">Baja</option></select></div>
-            <div><label style="color:#9AA4BF;font-size:0.85rem;">Asignado a</label><input type="text" x-model="tareaSeleccionada.asignado_a" @blur="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></div>
-            <div><label style="color:#9AA4BF;font-size:0.85rem;">Fecha límite</label><input type="date" x-model="tareaSeleccionada.fecha_limite" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></div>
-        </div>
-        <div style="margin-top:1rem;"><label style="color:#9AA4BF;font-size:0.85rem;">Descripción</label><textarea x-model="tareaSeleccionada.descripcion" @blur="actualizarTarea" rows="3" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></textarea></div>
-        <div style="margin-top:1rem;">
-            <label style="color:#9AA4BF;font-size:0.85rem;"><i class="fas fa-paperclip"></i> Archivos adjuntos</label>
-            <div x-show="tareaArchivos.length">
-                <template x-for="a in tareaArchivos" :key="a.filename">
-                    <div class="file-item"><span><i class="fas fa-file"></i> <span x-text="a.filename"></span> (<span x-text="Math.round(a.size/1024)+'KB'"></span>)</span><div><button @click="descargarArchivo(a.filename)" style="background:none;border:none;color:#2D8C7C;cursor:pointer;margin-right:8px;"><i class="fas fa-download"></i></button><button @click="eliminarArchivo(a.filename)" style="background:none;border:none;color:#E05560;cursor:pointer;"><i class="fas fa-trash"></i></button></div></div>
-                </template>
-            </div>
-            <input type="file" id="fileInput" style="display:none;" @change="subirArchivo">
-            <button @click="abrirSelectorArchivo" style="margin-top:0.5rem;background:#1E2432;border:1px solid #2D8C7C;padding:0.4rem 1rem;border-radius:20px;color:#2D8C7C;cursor:pointer;font-size:0.8rem;"><i class="fas fa-upload"></i> Subir archivo</button>
+    <!-- MODAL DE DETALLES DE TAREA (dentro del x-data) -->
+    <div id="taskModal" class="modal" @click.self="cerrarModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2 x-text="tareaSeleccionada?.nombre || 'Detalles de tarea'"></h2><button class="modal-close" @click="cerrarModal">&times;</button></div>
+            <template x-if="tareaSeleccionada">
+                <div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div><label style="color:#9AA4BF;font-size:0.85rem;">Estado</label><select x-model="tareaSeleccionada.estado" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"><option value="EST.PEN">Pendiente</option><option value="EST.ACT">En curso</option><option value="EST.REV">Revisión</option><option value="EST.FIN">Finalizada</option></select></div>
+                        <div><label style="color:#9AA4BF;font-size:0.85rem;">Prioridad</label><select x-model="tareaSeleccionada.prioridad" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"><option value="PRI.URG">Urgente</option><option value="PRI.ALT">Alta</option><option value="PRI.MED">Media</option><option value="PRI.BAJ">Baja</option></select></div>
+                        <div><label style="color:#9AA4BF;font-size:0.85rem;">Asignado a</label><input type="text" x-model="tareaSeleccionada.asignado_a" @blur="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></div>
+                        <div><label style="color:#9AA4BF;font-size:0.85rem;">Fecha límite</label><input type="date" x-model="tareaSeleccionada.fecha_limite" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></div>
+                    </div>
+                    <div style="margin-top:1rem;"><label style="color:#9AA4BF;font-size:0.85rem;">Descripción</label><textarea x-model="tareaSeleccionada.descripcion" @blur="actualizarTarea" rows="3" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;resize:vertical;"></textarea></div>
+                    <div style="margin-top:1rem;">
+                        <label style="color:#9AA4BF;font-size:0.85rem;display:block;margin-bottom:0.5rem;"><i class="fas fa-paperclip"></i> Archivos adjuntos</label>
+                        <div x-show="tareaArchivos.length > 0" style="margin-bottom:0.5rem;">
+                            <template x-for="a in tareaArchivos" :key="a.filename">
+                                <div class="file-item">
+                                    <span><i class="fas fa-file"></i> <span x-text="a.filename"></span> (<span x-text="Math.round(a.size/1024)+'KB'"></span>)</span>
+                                    <div>
+                                        <button @click="descargarArchivo(a.filename)" style="background:none;border:none;color:#2D8C7C;cursor:pointer;margin-right:8px;"><i class="fas fa-download"></i></button>
+                                        <button @click="eliminarArchivo(a.filename)" style="background:none;border:none;color:#E05560;cursor:pointer;"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        <div x-show="tareaArchivos.length === 0" style="font-size:0.8rem;color:#5A6B86;margin-bottom:0.5rem;">Sin archivos adjuntos</div>
+                        <input type="file" x-ref="fileInput" style="display:none;" @change="subirArchivo($event)">
+                        <button @click="$refs.fileInput.click()" style="background:#1E2432;border:1px solid #2D8C7C;padding:0.4rem 1rem;border-radius:20px;color:#2D8C7C;cursor:pointer;font-size:0.8rem;"><i class="fas fa-upload"></i> Subir archivo</button>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </div>
@@ -736,11 +747,16 @@ function dashboardApp() {
 
         async verDetalleTarea(tarea) {
             this.tareaSeleccionada = JSON.parse(JSON.stringify(tarea));
+            this.tareaArchivos = [];
             document.getElementById('taskModal').classList.add('active');
             await this.cargarArchivosTarea(tarea.nombre);
         },
 
-        cerrarModal() { document.getElementById('taskModal').classList.remove('active'); this.tareaSeleccionada = null; this.tareaArchivos = []; },
+        cerrarModal() {
+            document.getElementById('taskModal').classList.remove('active');
+            this.tareaSeleccionada = null;
+            this.tareaArchivos = [];
+        },
 
         async cargarArchivosTarea(tareaId) {
             try {
@@ -759,7 +775,7 @@ function dashboardApp() {
             await this.fetchData();
         },
 
-        abrirSelectorArchivo() { document.getElementById('fileInput').click(); },
+        abrirSelectorArchivo() { this.$refs.fileInput.click(); },
 
         async subirArchivo(e) {
             const file = e.target.files[0];

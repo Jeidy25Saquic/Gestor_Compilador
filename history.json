@@ -1155,5 +1155,908 @@
       }
     },
     "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 20,
+    "timestamp": "2026-05-20T22:17:28.595417",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "BaseDatos",
+          "estado": "CAL:95",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-28",
+          "asignado_a": "luis",
+          "etiquetas": [
+            "backend",
+            "db"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Migrar tablas a PostgreSQL\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Endpoints",
+          "estado": "EST.ACT",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [
+            "backend",
+            "api"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Desarrollar API en NestJS\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Documentar",
+          "estado": "CAL:100",
+          "prioridad": "PRI.BAJ",
+          "fecha_limite": "HOY",
+          "asignado_a": "juan",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Escribir README del backend\"",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.MED",
+          "fecha_limite": "HOY",
+          "asignado_a": "maria",
+          "etiquetas": [
+            "frontend"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Diseñar vistas del dashboard\"",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juan",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "juan"
+          ]
+        },
+        {
+          "nombre": "Beta",
+          "miembros": [
+            "juan"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Sprint Backend",
+          "tareas": [
+            "BaseDatos",
+            "Endpoints"
+          ],
+          "descripcion": "Fase de servicios y base de datos"
+        },
+        {
+          "nombre": "Sprint Diseño",
+          "tareas": [
+            "Prototipo",
+            "Documentar"
+          ],
+          "descripcion": "Fase de interfaces y documentacion"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "urgentes"
+        },
+        {
+          "nombre": "pendientes"
+        }
+      ],
+      "stats": {
+        "total": 4,
+        "completadas": 0,
+        "pendientes": 4,
+        "prioridades": {
+          "PRI.URG": 1,
+          "PRI.ALT": 1,
+          "PRI.MED": 1,
+          "PRI.BAJ": 1
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 21,
+    "timestamp": "2026-05-20T22:17:39.738010",
+    "usuario": "usuario",
+    "accion": "subir_archivo",
+    "entidad": "tarea",
+    "entidad_id": "Prototipo",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "archivo": "4.png",
+      "size": 17784
+    },
+    "descripcion": "Archivo '4.png' subido a la tarea"
+  },
+  {
+    "id": 22,
+    "timestamp": "2026-05-20T22:17:49.463533",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Endpoints",
+    "datos_previos": {
+      "estado": "EST.ACT"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de EST.ACT a EST.FIN"
+  },
+  {
+    "id": 23,
+    "timestamp": "2026-05-20T22:20:56.313114",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "BaseDatos",
+          "estado": "CAL:95",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-28",
+          "asignado_a": "luis",
+          "etiquetas": [
+            "backend",
+            "db"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Migrar tablas a PostgreSQL\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Endpoints",
+          "estado": "EST.ACT",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [
+            "backend",
+            "api"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Desarrollar API en NestJS\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Documentar",
+          "estado": "CAL:100",
+          "prioridad": "PRI.BAJ",
+          "fecha_limite": "HOY",
+          "asignado_a": "juan",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Escribir README del backend\"",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.MED",
+          "fecha_limite": "HOY",
+          "asignado_a": "maria",
+          "etiquetas": [
+            "frontend"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Diseñar vistas del dashboard\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "4.png",
+              "size": 17784,
+              "mime_type": "image/png",
+              "modified": 1779337059.589183
+            }
+          ]
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juan",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "juan"
+          ]
+        },
+        {
+          "nombre": "Beta",
+          "miembros": [
+            "juan"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Sprint Backend",
+          "tareas": [
+            "BaseDatos",
+            "Endpoints"
+          ],
+          "descripcion": "Fase de servicios y base de datos"
+        },
+        {
+          "nombre": "Sprint Diseño",
+          "tareas": [
+            "Prototipo",
+            "Documentar"
+          ],
+          "descripcion": "Fase de interfaces y documentacion"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "urgentes"
+        },
+        {
+          "nombre": "pendientes"
+        }
+      ],
+      "stats": {
+        "total": 4,
+        "completadas": 0,
+        "pendientes": 4,
+        "prioridades": {
+          "PRI.URG": 1,
+          "PRI.ALT": 1,
+          "PRI.MED": 1,
+          "PRI.BAJ": 1
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 24,
+    "timestamp": "2026-05-20T22:21:11.896225",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Prototipo",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.FIN"
+  },
+  {
+    "id": 25,
+    "timestamp": "2026-05-20T22:21:16.062974",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Endpoints",
+    "datos_previos": {
+      "estado": "EST.ACT"
+    },
+    "datos_nuevos": {
+      "estado": "EST.PEN"
+    },
+    "descripcion": "Tarea movida de EST.ACT a EST.PEN"
+  },
+  {
+    "id": 26,
+    "timestamp": "2026-05-20T22:21:40.109662",
+    "usuario": "usuario",
+    "accion": "subir_archivo",
+    "entidad": "tarea",
+    "entidad_id": "Endpoints",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "archivo": "4.png",
+      "size": 17784
+    },
+    "descripcion": "Archivo '4.png' subido a la tarea"
+  },
+  {
+    "id": 27,
+    "timestamp": "2026-05-20T22:23:42.242603",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Endpoints",
+    "datos_previos": {
+      "estado": "EST.PEN"
+    },
+    "datos_nuevos": {
+      "estado": "EST.REV"
+    },
+    "descripcion": "Tarea movida de EST.PEN a EST.REV"
+  },
+  {
+    "id": 28,
+    "timestamp": "2026-05-20T22:35:48.463072",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Autenticacion",
+          "estado": "CAL:92",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-25",
+          "asignado_a": "carlos",
+          "etiquetas": [
+            "backend",
+            "seguridad",
+            "jwt"
+          ],
+          "subtareas": [
+            "LoginForm",
+            "TokenRefresh",
+            "Middleware"
+          ],
+          "descripcion": "\"Implementar login con JWT y refresh tokens\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "BaseDatos",
+          "estado": "CAL:88",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-05-28",
+          "asignado_a": "andres",
+          "etiquetas": [
+            "backend",
+            "db",
+            "postgres"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Migrar esquema a PostgreSQL\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "ApiRest",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-06-01",
+          "asignado_a": "pedro",
+          "etiquetas": [
+            "backend",
+            "api"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Desarrollar endpoints REST para modulos principales\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Microservicios",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.MED",
+          "fecha_limite": "2026-06-10",
+          "asignado_a": "carlos",
+          "etiquetas": [
+            "backend",
+            "arquitectura"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Separar modulo de pagos en microservicio\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "DiseñoUI",
+          "estado": "EST.REV",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-26",
+          "asignado_a": "sofia",
+          "etiquetas": [
+            "frontend",
+            "diseño",
+            "figma"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Diseñar sistema de componentes con Figma\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Dashboard",
+          "estado": "EST.ACT",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "lucia",
+          "etiquetas": [
+            "frontend",
+            "graficas"
+          ],
+          "subtareas": [
+            "GraficaVentas",
+            "TablaUsuarios",
+            "FiltroFechas"
+          ],
+          "descripcion": "\"Implementar dashboard principal con graficas\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "FormulariosPago",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-06-03",
+          "asignado_a": "valeria",
+          "etiquetas": [
+            "frontend",
+            "pagos"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Crear flujo de pago paso a paso\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "ResponsiveMovil",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.MED",
+          "fecha_limite": "2026-06-08",
+          "asignado_a": "lucia",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Adaptar vistas para dispositivos moviles\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "PruebasUnitarias",
+          "estado": "EST.ACT",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-27",
+          "asignado_a": "diego",
+          "etiquetas": [
+            "qa",
+            "testing"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Escribir tests unitarios para modulo de auth\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "PruebasIntegracion",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "2026-06-02",
+          "asignado_a": "elena",
+          "etiquetas": [
+            "qa",
+            "e2e",
+            "cypress"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Pruebas end-to-end con Cypress\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "ReporteBugs",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.MED",
+          "fecha_limite": "2026-06-05",
+          "asignado_a": "diego",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Documentar y clasificar bugs encontrados\"",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Documentacion",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.BAJ",
+          "fecha_limite": "HOY",
+          "asignado_a": "andres",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Escribir README y guia de instalacion\"",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "Despliegue",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-06-15",
+          "asignado_a": "carlos",
+          "etiquetas": [
+            "devops",
+            "ci-cd"
+          ],
+          "subtareas": [],
+          "descripcion": "\"Configurar pipeline CI/CD en GitHub Actions\"",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "LoginForm",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "SUBTAREA",
+          "archivos": []
+        },
+        {
+          "nombre": "TokenRefresh",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "SUBTAREA",
+          "archivos": []
+        },
+        {
+          "nombre": "Middleware",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "SUBTAREA",
+          "archivos": []
+        },
+        {
+          "nombre": "GraficaVentas",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "SUBTAREA",
+          "archivos": []
+        },
+        {
+          "nombre": "TablaUsuarios",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "SUBTAREA",
+          "archivos": []
+        },
+        {
+          "nombre": "FiltroFechas",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "SUBTAREA",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "carlos",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "sofia",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "pedro",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "lucia",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "andres",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "valeria",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "diego",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "elena",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "BackendTeam",
+          "miembros": [
+            "carlos"
+          ]
+        },
+        {
+          "nombre": "FrontendTeam",
+          "miembros": [
+            "sofia"
+          ]
+        },
+        {
+          "nombre": "QATeam",
+          "miembros": [
+            "pedro"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Sprint 1 - Core",
+          "tareas": [
+            "Autenticacion",
+            "BaseDatos",
+            "DiseñoUI",
+            "PruebasUnitarias"
+          ],
+          "descripcion": "Funcionalidades criticas del primer sprint"
+        },
+        {
+          "nombre": "Sprint 2 - Features",
+          "tareas": [
+            "Dashboard",
+            "ApiRest",
+            "PruebasIntegracion",
+            "FormulariosPago"
+          ],
+          "descripcion": "Funcionalidades secundarias"
+        },
+        {
+          "nombre": "Deuda Tecnica",
+          "tareas": [
+            "Microservicios",
+            "ResponsiveMovil",
+            "Documentacion"
+          ],
+          "descripcion": "Tareas de mejora y mantenimiento"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "urgentes"
+        },
+        {
+          "nombre": "pendientes"
+        },
+        {
+          "nombre": "en-progreso"
+        },
+        {
+          "nombre": "completadas"
+        }
+      ],
+      "stats": {
+        "total": 19,
+        "completadas": 0,
+        "pendientes": 19,
+        "prioridades": {
+          "PRI.URG": 4,
+          "PRI.ALT": 5,
+          "PRI.MED": 3,
+          "PRI.BAJ": 1
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 29,
+    "timestamp": "2026-05-20T22:35:59.746759",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "ApiRest",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.ACT"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.ACT"
+  },
+  {
+    "id": 30,
+    "timestamp": "2026-05-20T22:36:04.156533",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "FiltroFechas",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.REV"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.REV"
+  },
+  {
+    "id": 31,
+    "timestamp": "2026-05-20T22:36:11.584568",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "ResponsiveMovil",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.ACT"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.ACT"
+  },
+  {
+    "id": 32,
+    "timestamp": "2026-05-20T22:36:12.722993",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "PruebasIntegracion",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.ACT"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.ACT"
+  },
+  {
+    "id": 33,
+    "timestamp": "2026-05-20T22:36:21.580441",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "PruebasIntegracion",
+    "datos_previos": {
+      "estado": "EST.ACT"
+    },
+    "datos_nuevos": {
+      "estado": "EST.PEN"
+    },
+    "descripcion": "Tarea movida de EST.ACT a EST.PEN"
+  },
+  {
+    "id": 34,
+    "timestamp": "2026-05-20T22:36:27.494545",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "FormulariosPago",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.ACT"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.ACT"
+  },
+  {
+    "id": 35,
+    "timestamp": "2026-05-20T22:36:31.986837",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "TablaUsuarios",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.REV"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.REV"
+  },
+  {
+    "id": 36,
+    "timestamp": "2026-05-20T22:36:45.905924",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "PruebasUnitarias",
+    "datos_previos": {
+      "estado": "EST.ACT"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de EST.ACT a EST.FIN"
   }
 ]
