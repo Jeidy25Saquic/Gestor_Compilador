@@ -1,10 +1,11 @@
-# history_manager.py - Nuevo módulo para historial y versionado
+# history_manager.py - Adaptado para Vercel (usa /tmp)
 import json
 import os
 import datetime
+import tempfile
 from typing import Dict, List, Any, Optional
 
-HISTORY_FILE = "history.json"
+HISTORY_FILE = os.path.join(tempfile.gettempdir(), "flowforge_history.json")
 MAX_HISTORY_ENTRIES = 100
 
 
@@ -37,8 +38,8 @@ class HistoryManager:
             "id": len(self.history) + 1,
             "timestamp": datetime.datetime.now().isoformat(),
             "usuario": usuario,
-            "accion": accion,  # "crear", "editar", "eliminar", "mover", "cambiar_estado"
-            "entidad": entidad,  # "tarea", "usuario", "grupo", "lista"
+            "accion": accion,
+            "entidad": entidad,
             "entidad_id": entidad_id,
             "datos_previos": self._serialize_data(datos_previos),
             "datos_nuevos": self._serialize_data(datos_nuevos),
@@ -49,7 +50,6 @@ class HistoryManager:
         return entry
 
     def _serialize_data(self, data: Any) -> Any:
-        """Serializa datos para almacenamiento"""
         if data is None:
             return None
         if hasattr(data, '__dict__'):
@@ -64,7 +64,6 @@ class HistoryManager:
 
     def get_history(self, entidad: str = None, entidad_id: str = None,
                     limit: int = 50) -> List[Dict]:
-        """Obtiene el historial filtrado"""
         result = self.history
         if entidad:
             result = [e for e in result if e["entidad"] == entidad]
@@ -73,22 +72,18 @@ class HistoryManager:
         return result[-limit:]
 
     def get_snapshot(self, timestamp: str) -> Optional[Dict]:
-        """Obtiene el estado del sistema en un momento específico"""
-        # Implementar lógica de snapshot
         for entry in reversed(self.history):
             if entry["timestamp"] <= timestamp:
                 return entry["datos_nuevos"]
         return None
 
     def restore_version(self, entry_id: int) -> Optional[Dict]:
-        """Restaura una versión anterior"""
         for entry in self.history:
             if entry["id"] == entry_id:
                 return entry["datos_previos"]
         return None
 
     def clear_history(self, confirm: bool = False):
-        """Limpia el historial (solo si el usuario lo confirma)"""
         if confirm:
             self.history = []
             self._save_history()

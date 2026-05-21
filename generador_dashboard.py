@@ -1,16 +1,17 @@
-# generador_dashboard.py - ACTUALIZADO con nuevos módulos y endpoints
+# generador_dashboard.py - Adaptado para Vercel
 import json
 import os
 import datetime
 from flask import Flask, render_template, jsonify, request, session, send_from_directory
 from flask_cors import CORS
 
-# Importar nuevos módulos
+# Importar módulos
 from history_manager import history_manager
 from file_manager import file_manager
 from team_manager import TeamManager
 
-app = Flask(__name__)
+# Crear la aplicación Flask, indicando la carpeta de templates
+app = Flask(__name__, template_folder='templates')
 app.secret_key = "flowforge_secret_key_2024"
 CORS(app)
 
@@ -112,7 +113,6 @@ def ejecutar_codigo():
         global tabla_simbolos
         tabla_simbolos = tabla
 
-        # Registrar en historial
         history_manager.add_entry(
             usuario=session.get('usuario_actual', 'sistema'),
             accion="compilar",
@@ -150,7 +150,6 @@ def mover_tarea():
     if nuevo_estado not in ("EST.PEN", "EST.ACT", "EST.REV", "EST.COR", "EST.APROB", "EST.RECH", "EST.FIN"):
         return jsonify({"error": "Estado inválido"}), 400
 
-    # Registrar en historial antes del cambio
     history_manager.add_entry(
         usuario=session.get('usuario_actual', 'usuario'),
         accion="mover",
@@ -165,28 +164,21 @@ def mover_tarea():
     return jsonify({"ok": True})
 
 
-# ========== NUEVOS ENDPOINTS ==========
-
-# 1. ENDPOINTS PARA ARCHIVOS
+# ========== ENDPOINTS PARA ARCHIVOS ==========
 @app.route('/api/tarea/<tarea_id>/archivos', methods=['GET'])
 def get_tarea_archivos(tarea_id):
-    """Obtiene la lista de archivos de una tarea"""
     if tabla_simbolos is None:
         return jsonify({"error": "No hay datos"}), 400
-
     tarea = tabla_simbolos.obtener(tarea_id)
     if not tarea:
         return jsonify({"error": "Tarea no encontrada"}), 404
-
     return jsonify({"archivos": file_manager.get_files(tarea_id)})
 
 
 @app.route('/api/tarea/<tarea_id>/archivos/subir', methods=['POST'])
 def subir_archivo(tarea_id):
-    """Sube un archivo a una tarea"""
     if tabla_simbolos is None:
         return jsonify({"error": "No hay datos"}), 400
-
     tarea = tabla_simbolos.obtener(tarea_id)
     if not tarea:
         return jsonify({"error": "Tarea no encontrada"}), 404
@@ -198,7 +190,6 @@ def subir_archivo(tarea_id):
     resultado = file_manager.save_file(tarea_id, archivo)
 
     if resultado.get("success"):
-        # Registrar en historial
         history_manager.add_entry(
             usuario=session.get('usuario_actual', 'usuario'),
             accion="subir_archivo",
@@ -215,7 +206,6 @@ def subir_archivo(tarea_id):
 
 @app.route('/api/tarea/<tarea_id>/archivos/<filename>/eliminar', methods=['DELETE'])
 def eliminar_archivo(tarea_id, filename):
-    """Elimina un archivo de una tarea"""
     if file_manager.delete_file(tarea_id, filename):
         history_manager.add_entry(
             usuario=session.get('usuario_actual', 'usuario'),
@@ -232,40 +222,32 @@ def eliminar_archivo(tarea_id, filename):
 
 @app.route('/api/tarea/<tarea_id>/archivos/<filename>/descargar', methods=['GET'])
 def descargar_archivo(tarea_id, filename):
-    """Descarga un archivo"""
     return file_manager.get_file(tarea_id, filename)
 
 
 @app.route('/api/tarea/<tarea_id>/archivos/<filename>/preview', methods=['GET'])
 def preview_archivo(tarea_id, filename):
-    """Previsualiza un archivo"""
     contenido = file_manager.preview_file(tarea_id, filename)
     if contenido is not None:
         return jsonify({"content": contenido, "filename": filename})
     return jsonify({"error": "No se puede previsualizar"}), 400
 
 
-# 2. ENDPOINTS PARA HISTORIAL
+# ========== ENDPOINTS PARA HISTORIAL ==========
 @app.route('/api/history', methods=['GET'])
 def get_history():
-    """Obtiene el historial completo"""
     entidad = request.args.get('entidad')
     entidad_id = request.args.get('entidad_id')
     limit = int(request.args.get('limit', 50))
-
     history = history_manager.get_history(entidad, entidad_id, limit)
     return jsonify({"history": history, "total": len(history)})
 
 
 @app.route('/api/history/restore/<int:entry_id>', methods=['POST'])
 def restore_version(entry_id):
-    """Restaura una versión anterior"""
     global tabla_simbolos
-
     datos_previos = history_manager.restore_version(entry_id)
     if datos_previos:
-        # Aquí se implementaría la lógica de restauración específica
-        # Por ahora, registramos la restauración
         history_manager.add_entry(
             usuario=session.get('usuario_actual', 'usuario'),
             accion="restaurar",
@@ -281,25 +263,20 @@ def restore_version(entry_id):
 
 @app.route('/api/history/clear', methods=['POST'])
 def clear_history():
-    """Limpia el historial (requiere confirmación)"""
     data = request.get_json()
     confirm = data.get('confirm', False)
-
     if history_manager.clear_history(confirm):
         return jsonify({"success": True})
     return jsonify({"error": "Se requiere confirmación para limpiar el historial"}), 400
 
 
-# 3. ENDPOINTS PARA EQUIPOS Y FLUJO DE TRABAJO
+# ========== ENDPOINTS PARA EQUIPOS Y FLUJO ==========
 @app.route('/api/workflow', methods=['GET'])
 def get_workflow():
-    """Obtiene datos completos del flujo de trabajo"""
     if tabla_simbolos is None:
         return jsonify({"error": "No hay datos"}), 400
-
     team_mgr = TeamManager(tabla_simbolos)
     usuario = request.args.get('usuario')
-
     if usuario:
         return jsonify(team_mgr.get_user_workflow(usuario))
     return jsonify(team_mgr.get_workflow_data())
@@ -307,18 +284,13 @@ def get_workflow():
 
 @app.route('/api/workflow/filter', methods=['POST'])
 def filter_workflow():
-    """Filtra tareas según criterios"""
     if tabla_simbolos is None:
         return jsonify({"error": "No hay datos"}), 400
-
     data = request.get_json()
     team_mgr = TeamManager(tabla_simbolos)
-
-    # Obtener todas las tareas formateadas
     todas_tareas = []
     for t in tabla_simbolos.por_categoria("TAREA"):
         todas_tareas.append(team_mgr._format_task(t))
-
     filtradas = team_mgr.filter_tasks(
         todas_tareas,
         usuario=data.get('usuario'),
@@ -326,27 +298,21 @@ def filter_workflow():
         estado=data.get('estado'),
         prioridad=data.get('prioridad')
     )
-
     return jsonify({"tareas": filtradas, "total": len(filtradas)})
 
 
-# 4. ENDPOINT PARA ACTUALIZAR TAREA COMPLETA
+# ========== ACTUALIZAR TAREA ==========
 @app.route('/api/tarea/<tarea_id>', methods=['PUT'])
 def update_tarea(tarea_id):
-    """Actualiza una tarea completa"""
     global tabla_simbolos
-
     if tabla_simbolos is None:
         return jsonify({"error": "No hay datos"}), 400
-
     tarea = tabla_simbolos.obtener(tarea_id)
     if not tarea:
         return jsonify({"error": "Tarea no encontrada"}), 404
 
     data = request.get_json()
     cambios = []
-
-    # Guardar estado anterior
     estado_anterior = {
         "estado": tarea.get("estado"),
         "prioridad": tarea.get("prioridad"),
@@ -354,19 +320,15 @@ def update_tarea(tarea_id):
         "descripcion": tarea.get("descripcion")
     }
 
-    # Aplicar cambios
     if 'estado' in data and data['estado'] != tarea.get("estado"):
         tabla_simbolos.actualizar(tarea_id, "estado", data['estado'], "Actualización manual", 0)
         cambios.append(f"estado: {estado_anterior['estado']} -> {data['estado']}")
-
     if 'prioridad' in data and data['prioridad'] != tarea.get("prioridad"):
         tabla_simbolos.actualizar(tarea_id, "prioridad", data['prioridad'], "Actualización manual", 0)
         cambios.append(f"prioridad: {estado_anterior['prioridad']} -> {data['prioridad']}")
-
     if 'asignado_a' in data and data['asignado_a'] != tarea.get("asignado_a"):
         tabla_simbolos.actualizar(tarea_id, "asignado_a", data['asignado_a'], "Actualización manual", 0)
         cambios.append(f"asignado: {estado_anterior['asignado_a']} -> {data['asignado_a']}")
-
     if 'descripcion' in data and data['descripcion'] != tarea.get("descripcion"):
         tabla_simbolos.actualizar(tarea_id, "descripcion", data['descripcion'], "Actualización manual", 0)
         cambios.append("descripción actualizada")
@@ -381,21 +343,17 @@ def update_tarea(tarea_id):
             datos_nuevos=data,
             descripcion=f"Tarea actualizada: {', '.join(cambios)}"
         )
-
     return jsonify({"success": True, "cambios": cambios})
 
 
-# 5. ENDPOINT PARA SINCRONIZACIÓN CON CODEMIRROR
+# ========== COMPILACIÓN EN TIEMPO REAL ==========
 @app.route('/api/compilar/tiempo-real', methods=['POST'])
 def compilar_tiempo_real():
-    """Compila código en tiempo real para sincronización con CodeMirror"""
     from semantico import AnalizadorSemantico
-
     data = request.get_json()
     codigo = data.get('codigo', '')
     sem = AnalizadorSemantico()
     tabla, log, ok, msg, detalle = sem.analizar(codigo)
-
     if ok:
         global tabla_simbolos
         tabla_simbolos = tabla
@@ -406,33 +364,30 @@ def compilar_tiempo_real():
             "usuarios": len(tabla.por_categoria("USUARIO"))
         })
     else:
+        linea = None
+        if "Línea " in detalle:
+            try:
+                linea = detalle.split("Línea ")[1].split(":")[0]
+            except:
+                pass
         return jsonify({
             "ok": False,
             "error": msg,
             "detalle": detalle,
-            "linea": detalle.split("Línea ")[1].split(":")[0] if "Línea " in detalle else None
+            "linea": linea
         }), 400
 
 
-# 6. ENDPOINT PARA OBTENER CÓDIGO ACTUAL
+# ========== OBTENER CÓDIGO ACTUAL ==========
 @app.route('/api/codigo', methods=['GET'])
 def obtener_codigo_actual():
-    """Obtiene el código DSL actual desde la tabla de símbolos"""
     if tabla_simbolos is None:
         return jsonify({"codigo": "", "error": "No hay código cargado"}), 404
-
-    # Generar código DSL a partir de la tabla de símbolos
     lineas = []
-
-    # Usuarios
     for u in tabla_simbolos.por_categoria("USUARIO"):
         lineas.append(f'REG.USR("{u["identificador"]}");')
-
-    # Grupos
     for g in tabla_simbolos.por_categoria("GRUPO"):
         lineas.append(f'CRE.GRP("{g["identificador"]}");')
-
-    # Tareas
     for t in tabla_simbolos.por_categoria("TAREA"):
         params = [f'"{t["identificador"]}"']
         if t.get("prioridad") and t["prioridad"] != "—":
@@ -440,10 +395,10 @@ def obtener_codigo_actual():
         if t.get("fecha_limite") and t["fecha_limite"] != "—":
             params.append(f'FEC({t["fecha_limite"]})')
         lineas.append(f'CRE.TAR({", ".join(params)});')
-
     return jsonify({"codigo": "\n".join(lineas), "lineas": len(lineas)})
 
 
+# ========== RUTAS DE PÁGINAS ==========
 @app.route('/editor')
 def editor():
     return render_template('editor.html')

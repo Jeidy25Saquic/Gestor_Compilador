@@ -1,13 +1,15 @@
-# file_manager.py - CORREGIDO
+# file_manager.py - Adaptado para Vercel (usa /tmp)
 import os
 import shutil
 import mimetypes
+import tempfile
 from pathlib import Path
 from typing import Dict, List, Optional
 from werkzeug.utils import secure_filename
 from flask import send_file, abort
 
-UPLOAD_FOLDER = "uploads"
+# Usar directorio temporal de Vercel
+UPLOAD_FOLDER = os.path.join(tempfile.gettempdir(), "flowforge_uploads")
 ALLOWED_EXTENSIONS = {
     'pdf', 'txt', 'json', 'py', 'js', 'html', 'css',
     'png', 'jpg', 'jpeg', 'gif', 'svg', 'md'
