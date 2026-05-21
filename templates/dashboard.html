@@ -4,25 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>FlowForge | Dashboard</title>
-    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Flatpickr -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- SortableJS -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background: #0B0E14;
@@ -30,36 +18,19 @@
             line-height: 1.5;
             overflow-x: hidden;
         }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1A1F2A; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #3E4A5F; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #5A6B86; }
 
-        /* Scrollbar elegante */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1A1F2A;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #3E4A5F;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #5A6B86;
-        }
+        .app-wrapper { display: flex; min-height: 100vh; }
 
-        /* Layout principal */
-        .app-wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* Sidebar premium */
+        /* Sidebar */
         .sidebar {
             width: 280px;
-            background: rgba(18, 22, 30, 0.8);
+            background: rgba(18, 22, 30, 0.95);
             backdrop-filter: blur(12px);
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            border-right: 1px solid rgba(255,255,255,0.06);
             padding: 2rem 1.5rem;
             position: sticky;
             top: 0;
@@ -67,319 +38,310 @@
             display: flex;
             flex-direction: column;
             gap: 2rem;
+            flex-shrink: 0;
         }
-
         .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            font-size: 1.5rem;
-            letter-spacing: -0.3px;
-            color: #FFFFFF;
-            margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 12px;
+            font-weight: 600; font-size: 1.5rem; letter-spacing: -0.3px; color: #FFF;
         }
         .logo-icon {
-            width: 36px;
-            height: 36px;
+            width: 36px; height: 36px;
             background: linear-gradient(135deg, #2D8C7C, #1C5C52);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
         }
-        .logo-icon i {
-            font-size: 1.2rem;
-            color: white;
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            flex: 1;
-        }
+        .logo-icon i { font-size: 1.1rem; color: white; }
+        .nav-menu { display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
         .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            color: #9AA4BF;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            font-weight: 500;
+            display: flex; align-items: center; gap: 12px;
+            padding: 0.75rem 1rem; border-radius: 12px;
+            color: #9AA4BF; transition: all 0.2s; cursor: pointer; font-weight: 500;
         }
-        .nav-item i {
-            width: 24px;
-            font-size: 1.2rem;
-        }
+        .nav-item i { width: 22px; font-size: 1.1rem; }
         .nav-item.active {
-            background: rgba(45, 140, 124, 0.2);
-            color: #2D8C7C;
+            background: rgba(45,140,124,0.18); color: #2D8C7C;
             border-left: 3px solid #2D8C7C;
         }
-        .nav-item:hover:not(.active) {
-            background: rgba(255, 255, 255, 0.04);
-            color: #C8D0E0;
-        }
-
-        /* Botón de modo oscuro/claro simplificado */
+        .nav-item:hover:not(.active) { background: rgba(255,255,255,0.04); color: #C8D0E0; }
         .theme-toggle {
-            background: #1E2432;
-            border: none;
-            padding: 0.6rem;
-            border-radius: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            color: #9AA4BF;
-            transition: 0.2s;
+            background: #1E2432; border: none; padding: 0.6rem;
+            border-radius: 40px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #9AA4BF; transition: 0.2s;
         }
-        .theme-toggle:hover {
-            background: #2A3142;
-            color: white;
-        }
+        .theme-toggle:hover { background: #2A3142; color: white; }
 
-        /* Contenido principal */
-        .main-content {
-            flex: 1;
-            padding: 2rem 2.5rem;
-            overflow-y: auto;
-        }
-
-        /* Header */
+        /* Main */
+        .main-content { flex: 1; padding: 2rem 2.5rem; overflow-y: auto; }
         .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;
         }
-        .page-title h1 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: -0.4px;
-        }
-        .page-title p {
-            color: #7E89A3;
-            font-size: 0.9rem;
-            margin-top: 0.2rem;
-        }
+        .page-title h1 { font-size: 1.8rem; font-weight: 600; letter-spacing: -0.4px; }
+        .page-title p { color: #7E89A3; font-size: 0.9rem; margin-top: 0.2rem; }
         .refresh-btn {
-            background: #1E2432;
-            border: none;
-            padding: 0.6rem 1.2rem;
-            border-radius: 40px;
-            color: #E8EDF2;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: 0.2s;
+            background: #1E2432; border: none; padding: 0.6rem 1.2rem;
+            border-radius: 40px; color: #E8EDF2; font-weight: 500;
+            display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.2s;
         }
-        .refresh-btn:hover {
-            background: #2A3142;
-        }
+        .refresh-btn:hover { background: #2A3142; }
 
-        /* Tarjetas / contenedores */
         .card {
-            background: #131722;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: #131722; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
             padding: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
 
-        /* Kanban columns */
-        .kanban-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        .kanban-col {
-            background: #0E121B;
-            border-radius: 20px;
-            padding: 1rem;
-            border: 1px solid #202534;
-        }
+        /* Kanban */
+        .kanban-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.5rem; margin-top: 1rem; }
+        .kanban-col { background: #0E121B; border-radius: 20px; padding: 1rem; border: 1px solid #202534; }
         .kanban-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid #202534;
-            font-weight: 600;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #202534; font-weight: 600;
         }
         .task-card {
-            background: #1A1F2A;
-            border-radius: 14px;
-            padding: 1rem;
-            margin-bottom: 0.75rem;
-            cursor: grab;
-            transition: all 0.2s;
-            border-left: 3px solid #2D8C7C;
+            background: #1A1F2A; border-radius: 14px; padding: 1rem; margin-bottom: 0.75rem;
+            cursor: grab; transition: all 0.2s; border-left: 3px solid #2D8C7C;
         }
-        .task-card:active {
-            cursor: grabbing;
-        }
-        .task-card:hover {
-            background: #222837;
-            transform: translateX(2px);
-        }
-        .task-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .task-meta {
-            font-size: 0.75rem;
-            color: #7E89A3;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .tag {
-            background: #2A3142;
-            padding: 0.2rem 0.5rem;
-            border-radius: 20px;
-            font-size: 0.7rem;
-        }
+        .task-card:active { cursor: grabbing; }
+        .task-card:hover { background: #222837; transform: translateX(2px); }
+        .task-title { font-weight: 600; margin-bottom: 0.5rem; font-size: 0.9rem; }
+        .task-meta { font-size: 0.75rem; color: #7E89A3; display: flex; gap: 0.8rem; flex-wrap: wrap; }
+        .tag { background: #2A3142; padding: 0.2rem 0.5rem; border-radius: 20px; font-size: 0.7rem; }
 
-        /* Tabla de lista */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .data-table th, .data-table td {
-            text-align: left;
-            padding: 1rem 0.5rem;
-            border-bottom: 1px solid #202534;
-        }
-        .data-table th {
-            font-weight: 600;
-            color: #9AA4BF;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 0.2rem 0.6rem;
-            border-radius: 30px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-        .status-PEN { background: #C49F47; color: #1E1A0C; }
-        .status-ACT { background: #2D8C7C; color: white; }
-        .status-REV { background: #7C5E9A; color: white; }
-        .status-FIN { background: #3A7B5C; color: white; }
+        /* Tabla */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th, .data-table td { text-align: left; padding: 0.9rem 0.6rem; border-bottom: 1px solid #202534; font-size: 0.88rem; }
+        .data-table th { font-weight: 600; color: #9AA4BF; }
+        .status-badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 30px; font-size: 0.7rem; font-weight: 600; }
+        .status-PEN { background: #C49F4722; color: #C49F47; border: 1px solid #C49F4744; }
+        .status-ACT { background: #2D8C7C22; color: #2D8C7C; border: 1px solid #2D8C7C44; }
+        .status-REV { background: #7C5E9A22; color: #9B7EC8; border: 1px solid #7C5E9A44; }
+        .status-FIN { background: #3A7B5C33; color: #56B88A; border: 1px solid #3A7B5C55; }
+        .pri-badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; }
+        .pri-URG { background: #C0394022; color: #E05560; }
+        .pri-ALT { background: #C49F4722; color: #C49F47; }
+        .pri-MED { background: #2D8C7C22; color: #2D8C7C; }
+        .pri-BAJ { background: #3E4A5F44; color: #9AA4BF; }
 
         /* Gráficos */
-        .chart-container {
-            background: #131722;
-            border-radius: 20px;
+        .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .chart-box { background: #131722; border-radius: 20px; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.05); }
+        .chart-box h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: #C8D0E0; }
+
+        /* Calendario */
+        .cal-wrapper { display: flex; gap: 1.5rem; }
+        .cal-panel { flex-shrink: 0; }
+        .cal-detail-panel {
+            flex: 1;
+            background: #0E121B;
+            border-radius: 16px;
+            border: 1px solid #202534;
+            padding: 1.5rem;
+            min-height: 400px;
+        }
+        .cal-detail-panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: #9AA4BF; }
+        .cal-task-item {
+            background: #1A1F2A;
+            border-radius: 12px;
             padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #2D8C7C;
+            cursor: pointer;
+        }
+        .cal-task-item:hover { background: #222837; transform: translateX(2px); }
+        .cal-task-item.pri-URG { border-left-color: #E05560; }
+        .cal-task-item.pri-ALT { border-left-color: #C49F47; }
+        .cal-task-item.pri-MED { border-left-color: #2D8C7C; }
+        .cal-task-item.pri-BAJ { border-left-color: #5A6B86; }
+        .cal-task-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.4rem; }
+        .cal-task-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; align-items: center; }
+        .cal-empty { color: #5A6B86; font-size: 0.9rem; text-align: center; padding: 2rem 0; }
+        .cal-empty i { font-size: 2rem; display: block; margin-bottom: 0.5rem; opacity: 0.4; }
+
+        .my-cal { width: 340px; }
+        .my-cal-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem;
+        }
+        .my-cal-nav button {
+            background: #1E2432; border: none; width: 32px; height: 32px;
+            border-radius: 8px; color: #9AA4BF; cursor: pointer; font-size: 0.9rem; transition: 0.2s;
+        }
+        .my-cal-nav button:hover { background: #2A3142; color: white; }
+        .my-cal-nav span { font-weight: 600; font-size: 1rem; }
+        .my-cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+        .my-cal-day-label { text-align: center; font-size: 0.72rem; font-weight: 600; color: #5A6B86; padding: 0.4rem 0; }
+        .my-cal-cell {
+            text-align: center; padding: 0.45rem 0;
+            border-radius: 8px; font-size: 0.82rem; cursor: pointer;
+            transition: all 0.15s; position: relative; color: #9AA4BF;
+        }
+        .my-cal-cell:hover { background: #1E2432; color: white; }
+        .my-cal-cell.has-tasks { color: white; font-weight: 600; }
+        .my-cal-cell.has-tasks::after {
+            content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%);
+            width: 5px; height: 5px; border-radius: 50%; background: #2D8C7C;
+        }
+        .my-cal-cell.selected { background: #2D8C7C; color: white; }
+        .my-cal-cell.selected::after { background: white; }
+        .my-cal-cell.today { background: rgba(45,140,124,0.15); color: #2D8C7C; font-weight: 700; }
+        .my-cal-cell.other-month { opacity: 0.3; }
+
+        /* Equipo */
+        .team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .user-card {
+            background: #0E121B;
+            border-radius: 16px;
+            border: 1px solid #202534;
+            padding: 1.2rem 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+        }
+        .user-card:hover { border-color: #2D8C7C44; transform: translateY(-1px); }
+        .user-avatar {
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.1rem; flex-shrink: 0;
+            position: relative;
+        }
+        .user-avatar .status-dot {
+            position: absolute; bottom: 1px; right: 1px;
+            width: 11px; height: 11px; border-radius: 50%;
+            border: 2px solid #0E121B;
+        }
+        .status-dot.online { background: #4CAF50; }
+        .status-dot.offline { background: #5A6B86; }
+        .user-info { flex: 1; min-width: 0; }
+        .user-name { font-weight: 600; font-size: 0.95rem; }
+        .user-role-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 0.15rem 0.55rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600;
+            margin-top: 0.2rem;
+        }
+        .role-COORD { background: rgba(45,140,124,0.2); color: #2D8C7C; }
+        .role-MIEM { background: rgba(124,94,154,0.2); color: #9B7EC8; }
+        .user-session { font-size: 0.75rem; color: #5A6B86; margin-top: 0.15rem; }
+        .user-tasks-count {
+            background: #1E2432; border-radius: 10px; padding: 0.5rem 0.8rem;
+            text-align: center; flex-shrink: 0;
+        }
+        .user-tasks-count .count { font-size: 1.3rem; font-weight: 700; color: #2D8C7C; line-height: 1; }
+        .user-tasks-count .label { font-size: 0.65rem; color: #5A6B86; margin-top: 2px; }
+
+        .users-section-title {
+            font-size: 1rem; font-weight: 600; margin-bottom: 1rem;
+            display: flex; align-items: center; gap: 8px; color: #C8D0E0;
+        }
+        .group-card {
+            background: #0E121B;
+            border-radius: 16px;
+            border: 1px solid #202534;
+            padding: 1.2rem 1.4rem;
+            transition: all 0.2s;
+        }
+        .group-card:hover { border-color: #7C5E9A44; }
+        .group-header { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
+        .group-icon {
+            width: 36px; height: 36px; background: rgba(124,94,154,0.2);
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+        }
+        .group-icon i { color: #9B7EC8; font-size: 1rem; }
+        .group-name { font-weight: 600; font-size: 0.95rem; }
+        .group-members { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+        .member-chip {
+            background: #1E2432; border-radius: 20px;
+            padding: 0.2rem 0.7rem; font-size: 0.75rem; color: #9AA4BF;
+            display: flex; align-items: center; gap: 5px;
         }
 
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .kanban-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .sidebar {
-                width: 240px;
-            }
-            .main-content {
-                padding: 1.5rem;
-            }
+        /* Modal */
+        .modal {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: rgba(0,0,0,0.8);
+            z-index: 1000; justify-content: center; align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #131722; border-radius: 20px;
+            max-width: 80%; width: 700px; max-height: 80%; overflow-y: auto;
+            padding: 2rem; border: 1px solid #2D8C7C;
+        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-close { background: none; border: none; color: #9AA4BF; font-size: 1.5rem; cursor: pointer; }
+        .file-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem; background: #1E2432; border-radius: 8px; margin-bottom: 0.5rem;
+        }
+        .workflow-item {
+            background: #1A1F2A; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem;
+            cursor: pointer; transition: all 0.2s; border-left: 3px solid #2D8C7C;
+        }
+        .workflow-item:hover { background: #222837; transform: translateX(2px); }
+
+        @media (max-width: 1300px) {
+            .kanban-grid { grid-template-columns: repeat(2,1fr); }
+            .sidebar { width: 240px; }
+            .main-content { padding: 1.5rem; }
+        }
+        @media (max-width: 900px) {
+            .team-grid { grid-template-columns: 1fr; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .cal-wrapper { flex-direction: column; }
+            .my-cal { width: 100%; }
         }
         @media (max-width: 768px) {
-            .app-wrapper {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: space-between;
-                padding: 1rem;
-            }
-            .nav-menu {
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-            .kanban-grid {
-                grid-template-columns: 1fr;
-            }
+            .app-wrapper { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; justify-content: space-between; padding: 1rem; }
+            .nav-menu { flex-direction: row; flex-wrap: wrap; }
+            .kanban-grid { grid-template-columns: 1fr; }
         }
+        [x-cloak] { display: none !important; }
     </style>
 </head>
 <body>
 <div x-data="dashboardApp()" x-init="init()" class="app-wrapper">
-    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo-area">
             <div class="logo-icon"><i class="fas fa-code-branch"></i></div>
             <span>FlowForge</span>
         </div>
         <div class="nav-menu">
-            <div class="nav-item" :class="{ 'active': activeTab === 'kanban' }" @click="activeTab = 'kanban'">
-                <i class="fas fa-columns"></i> <span>Kanban</span>
-            </div>
-            <div class="nav-item" :class="{ 'active': activeTab === 'lista' }" @click="activeTab = 'lista'">
-                <i class="fas fa-list-ul"></i> <span>Lista</span>
-            </div>
-            <div class="nav-item" :class="{ 'active': activeTab === 'calendario' }" @click="activeTab = 'calendario'">
-                <i class="fas fa-calendar-alt"></i> <span>Calendario</span>
-            </div>
-            <div class="nav-item" :class="{ 'active': activeTab === 'graficos' }" @click="activeTab = 'graficos'">
-                <i class="fas fa-chart-pie"></i> <span>Analytics</span>
-            </div>
-            <div class="nav-item" :class="{ 'active': activeTab === 'usuarios' }" @click="activeTab = 'usuarios'">
-                <i class="fas fa-users"></i> <span>Equipo</span>
-            </div>
+            <div class="nav-item" :class="{'active': activeTab==='kanban'}" @click="activeTab='kanban'"><i class="fas fa-columns"></i><span>Kanban</span></div>
+            <div class="nav-item" :class="{'active': activeTab==='lista'}" @click="activeTab='lista'"><i class="fas fa-list-ul"></i><span>Lista</span></div>
+            <div class="nav-item" :class="{'active': activeTab==='calendario'}" @click="activeTab='calendario'"><i class="fas fa-calendar-alt"></i><span>Calendario</span></div>
+            <div class="nav-item" :class="{'active': activeTab==='graficos'}" @click="activeTab='graficos'"><i class="fas fa-chart-pie"></i><span>Analytics</span></div>
+            <div class="nav-item" :class="{'active': activeTab==='usuarios'}" @click="activeTab='usuarios'"><i class="fas fa-users"></i><span>Equipo</span></div>
+            <!-- NUEVAS PESTAÑAS -->
+            <div class="nav-item" :class="{'active': activeTab==='workflow'}" @click="activeTab='workflow'"><i class="fas fa-project-diagram"></i><span>Flujo</span></div>
+            <div class="nav-item" :class="{'active': activeTab==='historial'}" @click="activeTab='historial'"><i class="fas fa-history"></i><span>Historial</span></div>
         </div>
-        <button class="theme-toggle" @click="toggleDarkMode">
-            <i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i>
-        </button>
+        <button class="theme-toggle" @click="toggleDarkMode"><i class="fas" :class="darkMode ? 'fa-sun' : 'fa-moon'"></i></button>
     </aside>
 
-    <!-- Main -->
     <main class="main-content">
         <div class="page-header">
-            <div class="page-title">
-                <h1>Panel de control</h1>
-                <p>Gestión centralizada de tareas, equipos y progreso</p>
-            </div>
+            <div class="page-title"><h1>Panel de control</h1><p>Gestión centralizada de tareas, equipos y progreso</p></div>
             <button class="refresh-btn" @click="refreshData"><i class="fas fa-sync-alt"></i> Sincronizar</button>
         </div>
 
-        <!-- Kanban -->
-        <div x-show="activeTab === 'kanban'" x-cloak>
-            <div class="kanban-grid" id="kanban-board"></div>
-        </div>
+        <!-- KANBAN (original) -->
+        <div x-show="activeTab==='kanban'" x-cloak><div class="kanban-grid" id="kanban-board"></div></div>
 
-        <!-- Lista -->
-        <div x-show="activeTab === 'lista'" x-cloak>
+        <!-- LISTA (original) -->
+        <div x-show="activeTab==='lista'" x-cloak>
             <div class="card">
-                <div class="flex gap-4 mb-6 flex-wrap">
-                    <input type="text" placeholder="Buscar tarea..." x-model="filtroLista" class="bg-[#1E2432] border-none rounded-lg px-4 py-2 text-sm flex-1 min-w-[200px]">
-                    <select x-model="filtroPrioridad" class="bg-[#1E2432] border-none rounded-lg px-4 py-2 text-sm">
+                <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                    <input type="text" placeholder="🔍 Buscar tarea..." x-model="filtroLista" style="background:#1E2432;border:1px solid #2A3142;border-radius:10px;padding:0.55rem 1rem;color:#E8EDF2;font-size:0.88rem;flex:1;min-width:180px;outline:none;">
+                    <select x-model="filtroPrioridad" style="background:#1E2432;border:1px solid #2A3142;border-radius:10px;padding:0.55rem 0.8rem;color:#E8EDF2;font-size:0.88rem;outline:none;">
                         <option value="">Todas las prioridades</option>
-                        <option value="PRI.URG">Urgente</option>
-                        <option value="PRI.ALT">Alta</option>
-                        <option value="PRI.MED">Media</option>
-                        <option value="PRI.BAJ">Baja</option>
+                        <option value="PRI.URG">🔴 Urgente</option>
+                        <option value="PRI.ALT">🟡 Alta</option>
+                        <option value="PRI.MED">🟢 Media</option>
+                        <option value="PRI.BAJ">⚪ Baja</option>
                     </select>
-                    <select x-model="filtroEstado" class="bg-[#1E2432] border-none rounded-lg px-4 py-2 text-sm">
+                    <select x-model="filtroEstado" style="background:#1E2432;border:1px solid #2A3142;border-radius:10px;padding:0.55rem 0.8rem;color:#E8EDF2;font-size:0.88rem;outline:none;">
                         <option value="">Todos los estados</option>
                         <option value="EST.PEN">Pendiente</option>
                         <option value="EST.ACT">Activa</option>
@@ -387,187 +349,437 @@
                         <option value="EST.FIN">Finalizada</option>
                     </select>
                 </div>
-                <div class="overflow-x-auto">
+                <div style="overflow-x:auto;">
                     <table class="data-table">
-                        <thead>
-                            <tr><th>Nombre</th><th>Estado</th><th>Prioridad</th><th>Fecha límite</th><th>Asignado</th></tr>
-                        </thead>
+                        <thead><tr><th>Nombre</th><th>Estado</th><th>Prioridad</th><th>Fecha límite</th><th>Asignado</th><th>Etiquetas</th></tr></thead>
                         <tbody>
                             <template x-for="t in tareasFiltradas" :key="t.nombre">
-                                <tr>
-                                    <td x-text="t.nombre"></td>
-                                    <td><span class="status-badge" :class="'status-'+t.estado.replace('EST.', '')" x-text="t.estado"></span></td>
-                                    <td x-text="t.prioridad"></td>
-                                    <td x-text="t.fecha_limite || '—'"></td>
-                                    <td x-text="t.asignado_a || '—'"></td>
+                                <tr @click="verDetalleTarea(t)" style="cursor:pointer;">
+                                    <td x-text="t.nombre" style="font-weight:500;"></td>
+                                    <td><span class="status-badge" :class="'status-'+t.estado.replace('EST.','')" x-text="t.estado"></span></td>
+                                    <td><span class="pri-badge" :class="'pri-'+t.prioridad.replace('PRI.','')" x-text="t.prioridad"></span></td>
+                                    <td x-text="t.fecha_limite || '—'" style="color:#7E89A3;font-size:0.82rem;"></td>
+                                    <td><span x-show="t.asignado_a" style="display:inline-flex;align-items:center;gap:5px;"><span style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#2D8C7C,#1C5C52);display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;" x-text="(t.asignado_a||'?')[0].toUpperCase()"></span><span x-text="t.asignado_a" style="font-size:0.83rem;"></span></span><span x-show="!t.asignado_a" style="color:#5A6B86;">—</span></td>
+                                    <td><span x-show="t.etiquetas && t.etiquetas.length"><template x-for="et in t.etiquetas.slice(0,3)" :key="et"><span class="tag" x-text="et"></span></template></span><span x-show="!t.etiquetas || !t.etiquetas.length" style="color:#5A6B86;">—</span></td>
                                 </tr>
                             </template>
+                            <tr x-show="tareasFiltradas.length===0"><td colspan="6" style="text-align:center;color:#5A6B86;padding:2rem;">No hay tareas que coincidan</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Calendario -->
-        <div x-show="activeTab === 'calendario'" x-cloak>
+        <!-- CALENDARIO (original mejorado con click en tareas) -->
+        <div x-show="activeTab==='calendario'" x-cloak>
             <div class="card">
-                <div id="calendario"></div>
-            </div>
-        </div>
-
-        <!-- Gráficos -->
-        <div x-show="activeTab === 'graficos'" x-cloak>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="chart-container"><canvas id="progressChart"></canvas></div>
-                <div class="chart-container"><canvas id="priorityChart"></canvas></div>
-            </div>
-        </div>
-
-        <!-- Usuarios y grupos -->
-        <div x-show="activeTab === 'usuarios'" x-cloak>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="card"><h3 class="text-lg font-semibold mb-4">Usuarios activos</h3>
-                    <ul class="space-y-3">
-                        <template x-for="u in usuarios" :key="u.nombre">
-                            <li class="flex justify-between items-center"><span><i class="fas fa-circle text-[10px] mr-2" :class="u.sesion === 'activa' ? 'text-green-500' : 'text-gray-500'"></i> <span x-text="u.nombre"></span></span><span class="text-sm text-gray-400" x-text="u.rol"></span></li>
+                <div class="cal-wrapper">
+                    <div class="cal-panel">
+                        <div class="my-cal">
+                            <div class="my-cal-nav">
+                                <button @click="calPrevMonth()"><i class="fas fa-chevron-left"></i></button>
+                                <span x-text="calMonthLabel()"></span>
+                                <button @click="calNextMonth()"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="my-cal-grid">
+                                <template x-for="d in ['Do','Lu','Ma','Mi','Ju','Vi','Sá']" :key="d">
+                                    <div class="my-cal-day-label" x-text="d"></div>
+                                </template>
+                                <template x-for="cell in calCells()" :key="cell.key">
+                                    <div class="my-cal-cell" :class="{'has-tasks': cell.hasTasks, 'selected': cell.dateStr === calSelected, 'today': cell.isToday, 'other-month': !cell.inMonth}" @click="cell.dateStr && selectCalDay(cell.dateStr)">
+                                        <span x-text="cell.day || ''"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                        <div style="margin-top:1rem;font-size:0.75rem;color:#5A6B86;display:flex;gap:1rem;flex-wrap:wrap;">
+                            <span>● <span style="color:#2D8C7C;">Con tareas</span></span>
+                            <span style="background:#2D8C7C;color:white;padding:0.1rem 0.5rem;border-radius:6px;">Seleccionado</span>
+                        </div>
+                    </div>
+                    <div class="cal-detail-panel">
+                        <h3><i class="fas fa-calendar-day" style="color:#2D8C7C;margin-right:6px;"></i><span x-text="calSelected ? 'Tareas del ' + calSelected : 'Selecciona un día'"></span></h3>
+                        <div x-show="!calSelected" class="cal-empty"><i class="fas fa-hand-pointer"></i>Haz clic en un día para ver sus tareas</div>
+                        <div x-show="calSelected && calTareasDelDia().length === 0" class="cal-empty"><i class="fas fa-check-circle" style="color:#2D8C7C;"></i>Sin tareas para este día</div>
+                        <template x-for="t in calTareasDelDia()" :key="t.nombre">
+                            <div class="cal-task-item" :class="'pri-'+t.prioridad.replace('PRI.','')" @click="verDetalleTarea(t)">
+                                <div class="cal-task-name" x-text="t.nombre"></div>
+                                <div x-show="t.descripcion" style="font-size:0.82rem;color:#7E89A3;margin-top:0.3rem;" x-text="t.descripcion"></div>
+                                <div class="cal-task-meta">
+                                    <span class="status-badge" :class="'status-'+t.estado.replace('EST.','')" x-text="t.estado"></span>
+                                    <span class="pri-badge" :class="'pri-'+t.prioridad.replace('PRI.','')" x-text="t.prioridad"></span>
+                                    <span x-show="t.asignado_a" style="display:inline-flex;align-items:center;gap:4px;font-size:0.75rem;color:#9AA4BF;"><i class="fas fa-user" style="font-size:0.65rem;"></i><span x-text="t.asignado_a"></span></span>
+                                </div>
+                            </div>
                         </template>
-                    </ul>
+                    </div>
                 </div>
-                <div class="card"><h3 class="text-lg font-semibold mb-4">Grupos de trabajo</h3>
-                    <template x-for="g in grupos" :key="g.nombre">
-                        <div class="mb-3 p-3 bg-[#1E2432] rounded-xl"><div class="font-medium" x-text="g.nombre"></div><div class="text-sm text-gray-400">Miembros: <span x-text="g.miembros.join(', ') || '—'"></span></div></div>
+            </div>
+        </div>
+
+        <!-- GRÁFICOS (original) -->
+        <div x-show="activeTab==='graficos'" x-cloak>
+            <div class="charts-grid">
+                <div class="chart-box"><h3><i class="fas fa-circle-half-stroke" style="color:#2D8C7C;margin-right:6px;"></i>Progreso general</h3><canvas id="progressChart"></canvas></div>
+                <div class="chart-box"><h3><i class="fas fa-signal" style="color:#2D8C7C;margin-right:6px;"></i>Tareas por prioridad</h3><canvas id="priorityChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- EQUIPO (original) -->
+        <div x-show="activeTab==='usuarios'" x-cloak>
+            <div class="team-grid">
+                <div>
+                    <div class="users-section-title"><i class="fas fa-user-circle" style="color:#2D8C7C;"></i>Miembros del equipo<span class="count-pill" x-text="usuarios.length"></span></div>
+                    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                        <template x-for="u in usuarios" :key="u.nombre">
+                            <div class="user-card">
+                                <div class="user-avatar" :style="'background:'+avatarColor(u.nombre)"><span x-text="u.nombre[0].toUpperCase()" style="color:white;"></span><span class="status-dot" :class="u.sesion==='activa' ? 'online' : 'offline'"></span></div>
+                                <div class="user-info"><div class="user-name" x-text="u.nombre"></div><div><span class="user-role-badge" :class="'role-'+u.rol.replace('ROL.','')"><i class="fas" :class="u.rol==='ROL.COORD' ? 'fa-crown' : 'fa-user'"></i><span x-text="u.rol==='ROL.COORD' ? 'Coordinador' : 'Miembro'"></span></span></div><div class="user-session"><i class="fas fa-circle" style="font-size:0.5rem;" :style="u.sesion==='activa' ? 'color:#4CAF50' : 'color:#5A6B86'"></i><span x-text="u.sesion==='activa' ? ' Sesión activa' : ' Desconectado'"></span></div></div>
+                                <div class="user-tasks-count"><div class="count" x-text="tareasDeUsuario(u.nombre)"></div><div class="label">tareas</div></div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <div>
+                    <div class="users-section-title"><i class="fas fa-layer-group" style="color:#9B7EC8;"></i>Grupos de trabajo<span class="count-pill" x-text="grupos.length"></span></div>
+                    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                        <template x-for="g in grupos" :key="g.nombre">
+                            <div class="group-card"><div class="group-header"><div class="group-icon"><i class="fas fa-users"></i></div><div><div class="group-name" x-text="g.nombre"></div><div style="font-size:0.75rem;color:#5A6B86;" x-text="(g.miembros||[]).length + ' miembro(s)'"></div></div></div><div class="group-members"><template x-for="m in (g.miembros||[])" :key="m"><span class="member-chip"><i class="fas fa-user"></i><span x-text="m"></span></span></template><span x-show="!g.miembros || g.miembros.length===0" style="color:#5A6B86;font-size:0.8rem;">Sin miembros</span></div></div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NUEVO: FLUJO DE TRABAJO -->
+        <div x-show="activeTab==='workflow'" x-cloak>
+            <div class="card">
+                <div style="display:flex;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;">
+                    <select x-model="filtroWorkflow.usuario" @change="cargarWorkflow" style="background:#1E2432;border:1px solid #2A3142;border-radius:10px;padding:0.55rem 0.8rem;color:#E8EDF2;">
+                        <option value="">Todos los usuarios</option>
+                        <template x-for="u in usuarios"><option :value="u.nombre" x-text="u.nombre"></option></template>
+                    </select>
+                    <select x-model="filtroWorkflow.estado" @change="cargarWorkflow" style="background:#1E2432;border:1px solid #2A3142;border-radius:10px;padding:0.55rem 0.8rem;color:#E8EDF2;">
+                        <option value="">Todos los estados</option>
+                        <option value="EST.PEN">Pendiente</option>
+                        <option value="EST.ACT">Activa</option>
+                        <option value="EST.REV">Revisión</option>
+                        <option value="EST.FIN">Finalizada</option>
+                    </select>
+                    <select x-model="filtroWorkflow.prioridad" @change="cargarWorkflow" style="background:#1E2432;border:1px solid #2A3142;border-radius:10px;padding:0.55rem 0.8rem;color:#E8EDF2;">
+                        <option value="">Todas prioridades</option>
+                        <option value="PRI.URG">Urgente</option>
+                        <option value="PRI.ALT">Alta</option>
+                        <option value="PRI.MED">Media</option>
+                        <option value="PRI.BAJ">Baja</option>
+                    </select>
+                </div>
+                <div x-show="cargandoWorkflow" style="text-align:center;padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+                <div x-show="!cargandoWorkflow">
+                    <template x-for="t in workflowTareas" :key="t.nombre">
+                        <div class="workflow-item" @click="verDetalleTarea(t)">
+                            <div style="display:flex;justify-content:space-between;align-items:start;">
+                                <div class="task-title" x-text="t.nombre"></div>
+                                <span class="status-badge" :class="'status-'+t.estado.replace('EST.','')" x-text="t.estado"></span>
+                            </div>
+                            <div class="task-meta">
+                                <span class="pri-badge" :class="'pri-'+t.prioridad.replace('PRI.','')" x-text="t.prioridad"></span>
+                                <span x-show="t.asignado_a"><i class="fas fa-user"></i> <span x-text="t.asignado_a"></span></span>
+                                <span x-show="t.fecha_limite"><i class="fas fa-calendar"></i> <span x-text="t.fecha_limite"></span></span>
+                            </div>
+                        </div>
                     </template>
+                    <div x-show="workflowTareas.length===0 && !cargandoWorkflow" style="text-align:center;padding:2rem;color:#5A6B86;">No hay tareas que coincidan con los filtros</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NUEVO: HISTORIAL -->
+        <div x-show="activeTab==='historial'" x-cloak>
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+                    <h3 style="font-size:1rem;font-weight:600;"><i class="fas fa-history" style="color:#2D8C7C;margin-right:8px;"></i>Historial de cambios</h3>
+                    <button @click="limpiarHistorial" style="background:#1E2432;border:none;padding:0.4rem 1rem;border-radius:20px;color:#E05560;cursor:pointer;font-size:0.75rem;"><i class="fas fa-trash"></i> Limpiar</button>
+                </div>
+                <div x-show="cargandoHistorial" style="text-align:center;padding:2rem;"><i class="fas fa-spinner fa-spin"></i> Cargando...</div>
+                <div style="max-height:500px;overflow-y:auto;">
+                    <template x-for="h in historial" :key="h.id">
+                        <div style="background:#0E121B;border-radius:12px;padding:1rem;margin-bottom:0.75rem;border-left:3px solid #2D8C7C;">
+                            <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+                                <div><span style="color:#2D8C7C;font-weight:600;">#{h.id}</span> <span x-text="h.accion"></span> - <span style="color:#7E89A3;font-size:0.8rem;" x-text="h.entidad + ': ' + h.entidad_id"></span></div>
+                                <span style="font-size:0.7rem;color:#5A6B86;" x-text="new Date(h.timestamp).toLocaleString()"></span>
+                            </div>
+                            <div style="font-size:0.85rem;margin-bottom:0.5rem;" x-text="h.descripcion"></div>
+                            <button @click="restaurarVersion(h.id)" style="background:none;border:none;color:#2D8C7C;font-size:0.75rem;cursor:pointer;"><i class="fas fa-undo"></i> Restaurar esta versión</button>
+                        </div>
+                    </template>
+                    <div x-show="historial.length===0 && !cargandoHistorial" style="text-align:center;padding:2rem;color:#5A6B86;">No hay registros en el historial</div>
                 </div>
             </div>
         </div>
     </main>
 </div>
 
+<!-- MODAL DE DETALLES DE TAREA -->
+<div id="taskModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h2 x-text="tareaSeleccionada?.nombre || 'Detalles de tarea'"></h2><button class="modal-close" @click="cerrarModal">&times;</button></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div><label style="color:#9AA4BF;font-size:0.85rem;">Estado</label><select x-model="tareaSeleccionada.estado" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"><option value="EST.PEN">Pendiente</option><option value="EST.ACT">En curso</option><option value="EST.REV">Revisión</option><option value="EST.FIN">Finalizada</option></select></div>
+            <div><label style="color:#9AA4BF;font-size:0.85rem;">Prioridad</label><select x-model="tareaSeleccionada.prioridad" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"><option value="PRI.URG">Urgente</option><option value="PRI.ALT">Alta</option><option value="PRI.MED">Media</option><option value="PRI.BAJ">Baja</option></select></div>
+            <div><label style="color:#9AA4BF;font-size:0.85rem;">Asignado a</label><input type="text" x-model="tareaSeleccionada.asignado_a" @blur="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></div>
+            <div><label style="color:#9AA4BF;font-size:0.85rem;">Fecha límite</label><input type="date" x-model="tareaSeleccionada.fecha_limite" @change="actualizarTarea" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></div>
+        </div>
+        <div style="margin-top:1rem;"><label style="color:#9AA4BF;font-size:0.85rem;">Descripción</label><textarea x-model="tareaSeleccionada.descripcion" @blur="actualizarTarea" rows="3" style="width:100%;background:#1E2432;border:1px solid #2A3142;border-radius:8px;padding:0.5rem;color:#E8EDF2;"></textarea></div>
+        <div style="margin-top:1rem;">
+            <label style="color:#9AA4BF;font-size:0.85rem;"><i class="fas fa-paperclip"></i> Archivos adjuntos</label>
+            <div x-show="tareaArchivos.length">
+                <template x-for="a in tareaArchivos" :key="a.filename">
+                    <div class="file-item"><span><i class="fas fa-file"></i> <span x-text="a.filename"></span> (<span x-text="Math.round(a.size/1024)+'KB'"></span>)</span><div><button @click="descargarArchivo(a.filename)" style="background:none;border:none;color:#2D8C7C;cursor:pointer;margin-right:8px;"><i class="fas fa-download"></i></button><button @click="eliminarArchivo(a.filename)" style="background:none;border:none;color:#E05560;cursor:pointer;"><i class="fas fa-trash"></i></button></div></div>
+                </template>
+            </div>
+            <input type="file" id="fileInput" style="display:none;" @change="subirArchivo">
+            <button @click="abrirSelectorArchivo" style="margin-top:0.5rem;background:#1E2432;border:1px solid #2D8C7C;padding:0.4rem 1rem;border-radius:20px;color:#2D8C7C;cursor:pointer;font-size:0.8rem;"><i class="fas fa-upload"></i> Subir archivo</button>
+        </div>
+    </div>
+</div>
+
 <script>
-    function dashboardApp() {
-        return {
-            activeTab: 'kanban',
-            darkMode: false,
-            tareas: [],
-            usuarios: [],
-            grupos: [],
-            filtroLista: '',
-            filtroPrioridad: '',
-            filtroEstado: '',
-            progressChart: null,
-            priorityChart: null,
-            calendar: null,
-            async init() {
-                await this.fetchData();
-                this.$watch('activeTab', (val) => {
-                    if (val === 'graficos') this.renderCharts();
-                    if (val === 'calendario') this.initCalendar();
-                });
-            },
-            async fetchData() {
+function dashboardApp() {
+    return {
+        activeTab: 'kanban',
+        darkMode: false,
+        tareas: [],
+        usuarios: [],
+        grupos: [],
+        filtroLista: '',
+        filtroPrioridad: '',
+        filtroEstado: '',
+        progressChart: null,
+        priorityChart: null,
+        stats: { total: 0, completadas: 0, pendientes: 0, prioridades: {} },
+        calYear: new Date().getFullYear(),
+        calMonth: new Date().getMonth(),
+        calSelected: null,
+        // Nuevos
+        workflowTareas: [],
+        filtroWorkflow: { usuario: '', estado: '', prioridad: '' },
+        cargandoWorkflow: false,
+        historial: [],
+        cargandoHistorial: false,
+        tareaSeleccionada: null,
+        tareaArchivos: [],
+
+        async init() {
+            await this.fetchData();
+            this.$watch('activeTab', (val) => {
+                if (val === 'graficos') this.$nextTick(() => this.renderCharts());
+                if (val === 'workflow') this.cargarWorkflow();
+                if (val === 'historial') this.cargarHistorial();
+            });
+        },
+
+        async fetchData() {
+            try {
                 const res = await fetch('/api/datos');
                 const data = await res.json();
-                this.tareas = data.tareas;
-                this.usuarios = data.usuarios;
-                this.grupos = data.grupos;
-                this.stats = data.stats;
+                this.tareas = data.tareas || [];
+                this.usuarios = data.usuarios || [];
+                this.grupos = data.grupos || [];
+                this.stats = data.stats || { total:0, completadas:0, pendientes:0, prioridades:{} };
                 this.renderKanban();
-                this.initSortable();
-                if (this.activeTab === 'graficos') this.renderCharts();
-                if (this.activeTab === 'calendario') this.initCalendar();
-            },
-            refreshData() { this.fetchData(); },
-            renderKanban() {
-                const estados = ['EST.PEN', 'EST.ACT', 'EST.REV', 'EST.FIN'];
-                const titulos = { 'EST.PEN':'Pendiente', 'EST.ACT':'En curso', 'EST.REV':'Revisión', 'EST.FIN':'Finalizada' };
-                let html = '';
-                for (let est of estados) {
-                    const tareasFilt = this.tareas.filter(t => t.estado === est);
-                    html += `<div class="kanban-col" data-status="${est}"><div class="kanban-header"><span>${titulos[est]}</span><span class="text-xs bg-[#2A3142] px-2 py-1 rounded-full">${tareasFilt.length}</span></div><div id="col-${est}" class="space-y-2">`;
-                    tareasFilt.forEach(t => {
-                        html += `<div class="task-card" data-id="${t.nombre}" data-estado="${t.estado}">
-                                    <div class="task-title">${this.escapeHtml(t.nombre)}</div>
-                                    <div class="task-meta"><span>${t.prioridad || 'Sin prioridad'}</span><span>📅 ${t.fecha_limite || '—'}</span></div>
-                                    ${t.etiquetas.length ? `<div class="flex gap-1 mt-2">${t.etiquetas.map(e => `<span class="tag">${e}</span>`).join('')}</div>` : ''}
-                                 </div>`;
-                    });
-                    html += `</div></div>`;
-                }
-                document.getElementById('kanban-board').innerHTML = html;
-                this.initSortable();
-            },
-            initSortable() {
-                const cols = document.querySelectorAll('.kanban-col > div');
-                cols.forEach(col => {
-                    new Sortable(col, {
-                        group: 'shared',
-                        animation: 200,
-                        onEnd: async (evt) => {
-                            const nuevaColumna = evt.to.parentElement.getAttribute('data-status');
-                            const tareaId = evt.item.getAttribute('data-id');
-                            const tarea = this.tareas.find(t => t.nombre === tareaId);
-                            if (tarea && tarea.estado !== nuevaColumna) {
-                                // Persistir cambio en backend
-                                const res = await fetch('/api/mover_tarea', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({ nombre: tareaId, estado: nuevaColumna })
-                                });
-                                if (res.ok) {
-                                    tarea.estado = nuevaColumna;
-                                    this.renderKanban();
-                                } else {
-                                    console.error('Error al mover tarea');
-                                    this.renderKanban(); // revertir visualmente
-                                }
-                            }
+                if (this.activeTab === 'graficos') this.$nextTick(() => this.renderCharts());
+            } catch(e) { console.error('Error cargando datos', e); }
+        },
+
+        refreshData() { this.fetchData(); },
+
+        renderKanban() {
+            const estados = ['EST.PEN','EST.ACT','EST.REV','EST.FIN'];
+            const titulos = { 'EST.PEN':'Pendiente','EST.ACT':'En curso','EST.REV':'Revisión','EST.FIN':'Finalizada' };
+            const colores = { 'EST.PEN':'#C49F47','EST.ACT':'#2D8C7C','EST.REV':'#9B7EC8','EST.FIN':'#56B88A' };
+            let html = '';
+            for (let est of estados) {
+                const tf = this.tareas.filter(t => t.estado === est);
+                html += `<div class="kanban-col" data-status="${est}"><div class="kanban-header"><span style="display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:${colores[est]};"></span>${titulos[est]}</span><span style="font-size:0.75rem;background:#1E2432;padding:0.15rem 0.5rem;border-radius:20px;color:#9AA4BF;">${tf.length}</span></div><div id="col-${est}">`;
+                tf.forEach(t => {
+                    const priColor = {'PRI.URG':'#E05560','PRI.ALT':'#C49F47','PRI.MED':'#2D8C7C','PRI.BAJ':'#5A6B86'}[t.prioridad]||'#2D8C7C';
+                    html += `<div class="task-card" data-id="${t.nombre}" data-estado="${t.estado}" style="border-left-color:${priColor};" @click="verDetalleTarea(${JSON.stringify(t).replace(/"/g, '&quot;')})"><div class="task-title">${this.escapeHtml(t.nombre)}</div><div class="task-meta"><span>${t.prioridad||'—'}</span>${t.fecha_limite ? `<span>📅 ${t.fecha_limite}</span>` : ''}${t.asignado_a ? `<span>👤 ${t.asignado_a}</span>` : ''}</div>${t.etiquetas&&t.etiquetas.length ? `<div style="display:flex;gap:4px;margin-top:6px;flex-wrap:wrap;">${t.etiquetas.map(e=>`<span class="tag">${e}</span>`).join('')}</div>` : ''}</div>`;
+                });
+                html += `</div></div>`;
+            }
+            const board = document.getElementById('kanban-board');
+            if (board) { board.innerHTML = html; this.initSortable(); }
+        },
+
+        initSortable() {
+            document.querySelectorAll('.kanban-col > div').forEach(col => {
+                new Sortable(col, {
+                    group: 'shared', animation: 200,
+                    onEnd: async (evt) => {
+                        const nuevaCol = evt.to.parentElement.getAttribute('data-status');
+                        const id = evt.item.getAttribute('data-id');
+                        const tarea = this.tareas.find(t => t.nombre === id);
+                        if (tarea && tarea.estado !== nuevaCol) {
+                            const res = await fetch('/api/mover_tarea', {
+                                method:'POST', headers:{'Content-Type':'application/json'},
+                                body: JSON.stringify({nombre:id, estado:nuevaCol})
+                            });
+                            if (res.ok) { tarea.estado = nuevaCol; this.renderKanban(); }
+                            else this.renderKanban();
                         }
-                    });
-                });
-            },
-            renderCharts() {
-                if (this.progressChart) this.progressChart.destroy();
-                const ctx1 = document.getElementById('progressChart').getContext('2d');
-                this.progressChart = new Chart(ctx1, {
-                    type: 'doughnut',
-                    data: { labels: ['Completadas', 'Pendientes'], datasets: [{ data: [this.stats.completadas, this.stats.pendientes], backgroundColor: ['#2D8C7C', '#C49F47'], borderWidth: 0 }] },
-                    options: { responsive: true, plugins: { legend: { position: 'bottom', labels: { color: '#E8EDF2' } } } }
-                });
-                if (this.priorityChart) this.priorityChart.destroy();
-                const ctx2 = document.getElementById('priorityChart').getContext('2d');
-                this.priorityChart = new Chart(ctx2, {
-                    type: 'bar',
-                    data: { labels: ['Urgente', 'Alta', 'Media', 'Baja'], datasets: [{ label: 'Tareas', data: [this.stats.prioridades.PRI.URG, this.stats.prioridades.PRI.ALT, this.stats.prioridades.PRI.MED, this.stats.prioridades.PRI.BAJ], backgroundColor: '#2D8C7C', borderRadius: 8 }] },
-                    options: { responsive: true, scales: { y: { beginAtZero: true, grid: { color: '#2A3142' }, ticks: { color: '#9AA4BF' } }, x: { ticks: { color: '#E8EDF2' } } } }
-                });
-            },
-            initCalendar() {
-                if (this.calendar) this.calendar.destroy();
-                const fechas = this.tareas.filter(t => t.fecha_limite).map(t => ({ title: t.nombre, date: t.fecha_limite }));
-                flatpickr("#calendario", {
-                    inline: true, mode: "multiple", dateFormat: "Y-m-d", theme: "dark",
-                    defaultDate: fechas.map(f => f.date),
-                    onDayCreate: (dObj, dStr, fp, dayElem) => {
-                        const dateStr = dayElem.dateObj.toISOString().slice(0,10);
-                        const tareasDia = fechas.filter(f => f.date === dateStr);
-                        if (tareasDia.length) { dayElem.style.backgroundColor = '#2D8C7C'; dayElem.style.borderRadius = '50%'; dayElem.title = tareasDia.map(t => t.title).join('\n'); }
                     }
                 });
-            },
-            toggleDarkMode() {
-                this.darkMode = !this.darkMode;
-                document.body.style.background = this.darkMode ? '#FFFFFF' : '#0B0E14';
-                document.body.style.color = this.darkMode ? '#1A1F2A' : '#E8EDF2';
-            },
-            escapeHtml(str) { return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); },
-            get tareasFiltradas() {
-                return this.tareas.filter(t => t.nombre.toLowerCase().includes(this.filtroLista.toLowerCase()) &&
-                    (this.filtroPrioridad === '' || t.prioridad === this.filtroPrioridad) &&
-                    (this.filtroEstado === '' || t.estado === this.filtroEstado));
+            });
+        },
+
+        renderCharts() {
+            if (this.progressChart) this.progressChart.destroy();
+            const ctx1 = document.getElementById('progressChart');
+            if (ctx1) {
+                this.progressChart = new Chart(ctx1.getContext('2d'), {
+                    type: 'doughnut',
+                    data: { labels: ['Completadas','Pendientes'], datasets: [{ data:[this.stats.completadas, this.stats.pendientes], backgroundColor:['#2D8C7C','#C49F47'], borderWidth:0 }] },
+                    options: { responsive:true, plugins:{ legend:{ position:'bottom', labels:{ color:'#E8EDF2' } } } }
+                });
+            }
+            if (this.priorityChart) this.priorityChart.destroy();
+            const ctx2 = document.getElementById('priorityChart');
+            if (ctx2) {
+                const p = this.stats.prioridades || {};
+                this.priorityChart = new Chart(ctx2.getContext('2d'), {
+                    type:'bar',
+                    data: { labels:['Urgente','Alta','Media','Baja'], datasets:[{ label:'Tareas', data:[p['PRI.URG']||0, p['PRI.ALT']||0, p['PRI.MED']||0, p['PRI.BAJ']||0], backgroundColor:['#E05560','#C49F47','#2D8C7C','#5A6B86'], borderRadius:8 }] },
+                    options: { responsive:true, scales:{ y:{ beginAtZero:true, grid:{ color:'#2A3142' }, ticks:{ color:'#9AA4BF' } }, x:{ ticks:{ color:'#E8EDF2' } } } }
+                });
+            }
+        },
+
+        calPrevMonth() { if (this.calMonth === 0) { this.calMonth = 11; this.calYear--; } else this.calMonth--; this.calSelected = null; },
+        calNextMonth() { if (this.calMonth === 11) { this.calMonth = 0; this.calYear++; } else this.calMonth++; this.calSelected = null; },
+        calMonthLabel() { const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; return `${meses[this.calMonth]} ${this.calYear}`; },
+        calCells() {
+            const firstDay = new Date(this.calYear, this.calMonth, 1).getDay();
+            const daysInMonth = new Date(this.calYear, this.calMonth+1, 0).getDate();
+            const today = new Date().toISOString().slice(0,10);
+            const tareasConFecha = this.tareas.filter(t => t.fecha_limite);
+            const cells = [];
+            for (let i = 0; i < firstDay; i++) cells.push({ key:'b'+i, day:'', dateStr:'', inMonth:false, hasTasks:false, isToday:false });
+            for (let d = 1; d <= daysInMonth; d++) {
+                const mm = String(this.calMonth+1).padStart(2,'0'); const dd = String(d).padStart(2,'0');
+                const dateStr = `${this.calYear}-${mm}-${dd}`;
+                const hasTasks = tareasConFecha.some(t => t.fecha_limite === dateStr);
+                cells.push({ key:dateStr, day:d, dateStr, inMonth:true, hasTasks, isToday: dateStr===today });
+            }
+            return cells;
+        },
+        selectCalDay(dateStr) { this.calSelected = dateStr; },
+        calTareasDelDia() { if (!this.calSelected) return []; return this.tareas.filter(t => t.fecha_limite === this.calSelected); },
+
+        avatarColor(nombre) {
+            const colors = ['linear-gradient(135deg,#2D8C7C,#1C5C52)','linear-gradient(135deg,#7C5E9A,#4A3860)','linear-gradient(135deg,#C49F47,#8A6F2E)','linear-gradient(135deg,#4A7BC8,#2A4B88)','linear-gradient(135deg,#C85A5A,#882A2A)'];
+            let hash = 0; for (let c of nombre) hash = (hash + c.charCodeAt(0)) % colors.length;
+            return colors[hash];
+        },
+        tareasDeUsuario(nombre) { return this.tareas.filter(t => t.asignado_a === nombre).length; },
+
+        toggleDarkMode() {
+            this.darkMode = !this.darkMode;
+            document.body.style.background = this.darkMode ? '#F0F2F5' : '#0B0E14';
+            document.body.style.color = this.darkMode ? '#1A1F2A' : '#E8EDF2';
+        },
+        escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); },
+        get tareasFiltradas() { return this.tareas.filter(t => t.nombre.toLowerCase().includes(this.filtroLista.toLowerCase()) && (this.filtroPrioridad==='' || t.prioridad===this.filtroPrioridad) && (this.filtroEstado==='' || t.estado===this.filtroEstado)); },
+
+        // NUEVOS MÉTODOS
+        async cargarWorkflow() {
+            this.cargandoWorkflow = true;
+            try {
+                let url = '/api/workflow';
+                if (this.filtroWorkflow.usuario) url += `?usuario=${encodeURIComponent(this.filtroWorkflow.usuario)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+                let tareas = [];
+                if (data.tareas) tareas = data.tareas;
+                else if (data.usuarios) data.usuarios.forEach(u => tareas.push(...(u.tareas || [])));
+                if (this.filtroWorkflow.estado) tareas = tareas.filter(t => t.estado === this.filtroWorkflow.estado);
+                if (this.filtroWorkflow.prioridad) tareas = tareas.filter(t => t.prioridad === this.filtroWorkflow.prioridad);
+                this.workflowTareas = tareas;
+            } catch(e) { console.error(e); }
+            this.cargandoWorkflow = false;
+        },
+
+        async cargarHistorial() {
+            this.cargandoHistorial = true;
+            try {
+                const res = await fetch('/api/history?limit=50');
+                const data = await res.json();
+                this.historial = data.history || [];
+            } catch(e) { console.error(e); }
+            this.cargandoHistorial = false;
+        },
+
+        async limpiarHistorial() {
+            if (confirm('¿Limpiar todo el historial? Esta acción no se puede deshacer.')) {
+                await fetch('/api/history/clear', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ confirm: true }) });
+                this.cargarHistorial();
+            }
+        },
+
+        async restaurarVersion(id) {
+            if (confirm('¿Restaurar esta versión? Se perderán los cambios posteriores.')) {
+                await fetch(`/api/history/restore/${id}`, { method: 'POST' });
+                await this.fetchData();
+                alert('Versión restaurada correctamente');
+            }
+        },
+
+        async verDetalleTarea(tarea) {
+            this.tareaSeleccionada = JSON.parse(JSON.stringify(tarea));
+            document.getElementById('taskModal').classList.add('active');
+            await this.cargarArchivosTarea(tarea.nombre);
+        },
+
+        cerrarModal() { document.getElementById('taskModal').classList.remove('active'); this.tareaSeleccionada = null; this.tareaArchivos = []; },
+
+        async cargarArchivosTarea(tareaId) {
+            try {
+                const res = await fetch(`/api/tarea/${encodeURIComponent(tareaId)}/archivos`);
+                const data = await res.json();
+                this.tareaArchivos = data.archivos || [];
+            } catch(e) { console.error(e); }
+        },
+
+        async actualizarTarea() {
+            if (!this.tareaSeleccionada) return;
+            await fetch(`/api/tarea/${encodeURIComponent(this.tareaSeleccionada.nombre)}`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ estado: this.tareaSeleccionada.estado, prioridad: this.tareaSeleccionada.prioridad, asignado_a: this.tareaSeleccionada.asignado_a, descripcion: this.tareaSeleccionada.descripcion })
+            });
+            await this.fetchData();
+        },
+
+        abrirSelectorArchivo() { document.getElementById('fileInput').click(); },
+
+        async subirArchivo(e) {
+            const file = e.target.files[0];
+            if (!file || !this.tareaSeleccionada) return;
+            const fd = new FormData(); fd.append('archivo', file);
+            await fetch(`/api/tarea/${encodeURIComponent(this.tareaSeleccionada.nombre)}/archivos/subir`, { method: 'POST', body: fd });
+            await this.cargarArchivosTarea(this.tareaSeleccionada.nombre);
+            e.target.value = '';
+        },
+
+        async descargarArchivo(filename) { window.open(`/api/tarea/${encodeURIComponent(this.tareaSeleccionada.nombre)}/archivos/${encodeURIComponent(filename)}/descargar`, '_blank'); },
+
+        async eliminarArchivo(filename) {
+            if (confirm(`¿Eliminar "${filename}"?`)) {
+                await fetch(`/api/tarea/${encodeURIComponent(this.tareaSeleccionada.nombre)}/archivos/${encodeURIComponent(filename)}/eliminar`, { method: 'DELETE' });
+                await this.cargarArchivosTarea(this.tareaSeleccionada.nombre);
             }
         }
     }
+}
 </script>
-<style>[x-cloak] { display: none !important; }</style>
 </body>
 </html>

@@ -57,6 +57,19 @@
             gap: 8px;
         }
         .run-btn:hover { background: #1C5C52; transform: scale(0.98); }
+        .auto-compile {
+            background: #1E2432;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            color: #E8EDF2;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 0.75rem;
+        }
+        .auto-compile.active { background: #2D8C7C; }
         .editor-container {
             flex: 1;
             padding: 1.5rem;
@@ -84,7 +97,10 @@
         <div class="logo-icon"><i class="fas fa-pen-nib"></i></div>
         <span>FlowForge · Editor DSL</span>
     </div>
-    <button id="runBtn" class="run-btn"><i class="fas fa-play"></i> Ejecutar y desplegar</button>
+    <div style="display: flex; gap: 0.75rem;">
+        <button id="autoCompileBtn" class="auto-compile"><i class="fas fa-sync-alt"></i> Auto-compilar</button>
+        <button id="runBtn" class="run-btn"><i class="fas fa-play"></i> Ejecutar y desplegar</button>
+    </div>
 </div>
 <div class="editor-container">
     <textarea id="codeEditor">
@@ -119,10 +135,49 @@ CAM.PRI("Diseñar base de datos", PRI.ALT);
         tabSize: 4
     });
 
+    let autoCompile = false;
+    let compileTimeout = null;
+    const autoCompileBtn = document.getElementById('autoCompileBtn');
+    const runBtn = document.getElementById('runBtn');
+    const msgDiv = document.getElementById('message');
+
+    async function compilarTiempoReal() {
+        const codigo = editor.getValue();
+        try {
+            const res = await fetch('/api/compilar/tiempo-real', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo })
+            });
+            const data = await res.json();
+            if (data.ok) {
+                msgDiv.innerHTML = '<span class="success"><i class="fas fa-check-circle"></i> Compilación exitosa</span>';
+            } else {
+                msgDiv.innerHTML = `<span class="error"><i class="fas fa-exclamation-triangle"></i> ${data.error}</span>`;
+                if (data.linea) {
+                    const lineNum = parseInt(data.linea) - 1;
+                    if (!isNaN(lineNum) && lineNum >= 0) {
+                        editor.addLineClass(lineNum, 'background', 'cm-error-line');
+                        setTimeout(() => editor.removeLineClass(lineNum, 'background', 'cm-error-line'), 2000);
+                    }
+                }
+            }
+        } catch (err) {
+            msgDiv.innerHTML = `<span class="error"><i class="fas fa-bug"></i> Error de conexión: ${err.message}</span>`;
+        }
+    }
+
+    function handleCodeChange() {
+        if (autoCompile) {
+            if (compileTimeout) clearTimeout(compileTimeout);
+            compileTimeout = setTimeout(() => compilarTiempoReal(), 800);
+        }
+    }
+
+    editor.on('change', handleCodeChange);
+
     async function ejecutar() {
         const codigo = editor.getValue();
-        const msgDiv = document.getElementById('message');
-        const runBtn = document.getElementById('runBtn');
         runBtn.disabled = true;
         runBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Ejecutando...';
         msgDiv.innerHTML = '';
@@ -148,7 +203,23 @@ CAM.PRI("Diseñar base de datos", PRI.ALT);
         }
     }
 
-    document.getElementById('runBtn').addEventListener('click', ejecutar);
+    autoCompileBtn.addEventListener('click', () => {
+        autoCompile = !autoCompile;
+        if (autoCompile) {
+            autoCompileBtn.classList.add('active');
+            autoCompileBtn.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Auto-compilando...';
+            compilarTiempoReal();
+        } else {
+            autoCompileBtn.classList.remove('active');
+            autoCompileBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Auto-compilar';
+        }
+    });
+
+    runBtn.addEventListener('click', ejecutar);
+
+    const style = document.createElement('style');
+    style.textContent = '.cm-error-line { background-color: rgba(224, 108, 117, 0.2); }';
+    document.head.appendChild(style);
 </script>
 </body>
 </html>

@@ -1,0 +1,1159 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2026-05-20T17:47:04.049262",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 2,
+    "timestamp": "2026-05-20T17:47:24.347174",
+    "usuario": "usuario",
+    "accion": "subir_archivo",
+    "entidad": "tarea",
+    "entidad_id": "Estudiar",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "archivo": "1.png",
+      "size": 201978
+    },
+    "descripcion": "Archivo '1.png' subido a la tarea"
+  },
+  {
+    "id": 3,
+    "timestamp": "2026-05-20T17:48:21.145626",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Prototipo",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.FIN"
+  },
+  {
+    "id": 4,
+    "timestamp": "2026-05-20T17:49:21.056227",
+    "usuario": "usuario",
+    "accion": "restaurar",
+    "entidad": "version",
+    "entidad_id": "3",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "estado": "PENDIENTE"
+    },
+    "descripcion": "Versión 3 restaurada"
+  },
+  {
+    "id": 5,
+    "timestamp": "2026-05-20T17:55:52.491129",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "1.png",
+              "size": 201978,
+              "mime_type": "image/png",
+              "modified": 1779320844.2764084
+            }
+          ]
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 6,
+    "timestamp": "2026-05-20T17:57:05.311646",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "1.png",
+              "size": 201978,
+              "mime_type": "image/png",
+              "modified": 1779320844.2764084
+            }
+          ]
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 7,
+    "timestamp": "2026-05-20T18:05:57.467204",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "1.png",
+              "size": 201978,
+              "mime_type": "image/png",
+              "modified": 1779320844.2764084
+            }
+          ]
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 8,
+    "timestamp": "2026-05-20T18:09:36.735256",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "1.png",
+              "size": 201978,
+              "mime_type": "image/png",
+              "modified": 1779320844.2764084
+            }
+          ]
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 9,
+    "timestamp": "2026-05-20T18:28:47.319257",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "1.png",
+              "size": 201978,
+              "mime_type": "image/png",
+              "modified": 1779320844.2764084
+            }
+          ]
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  },
+  {
+    "id": 10,
+    "timestamp": "2026-05-20T18:28:55.233219",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Limpiar",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.ACT"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.ACT"
+  },
+  {
+    "id": 11,
+    "timestamp": "2026-05-20T18:28:57.946494",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "B",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.REV"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.REV"
+  },
+  {
+    "id": 12,
+    "timestamp": "2026-05-20T18:28:59.395099",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "A",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.FIN"
+  },
+  {
+    "id": 13,
+    "timestamp": "2026-05-20T18:29:20.388143",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "B",
+    "datos_previos": {
+      "estado": "EST.REV"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de EST.REV a EST.FIN"
+  },
+  {
+    "id": 14,
+    "timestamp": "2026-05-20T18:29:21.643392",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Prototipo",
+    "datos_previos": {
+      "estado": "PENDIENTE"
+    },
+    "datos_nuevos": {
+      "estado": "EST.REV"
+    },
+    "descripcion": "Tarea movida de PENDIENTE a EST.REV"
+  },
+  {
+    "id": 15,
+    "timestamp": "2026-05-20T18:29:24.456637",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "A",
+    "datos_previos": {
+      "estado": "EST.FIN"
+    },
+    "datos_nuevos": {
+      "estado": "EST.ACT"
+    },
+    "descripcion": "Tarea movida de EST.FIN a EST.ACT"
+  },
+  {
+    "id": 16,
+    "timestamp": "2026-05-20T18:29:26.514587",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "Prototipo",
+    "datos_previos": {
+      "estado": "EST.REV"
+    },
+    "datos_nuevos": {
+      "estado": "EST.PEN"
+    },
+    "descripcion": "Tarea movida de EST.REV a EST.PEN"
+  },
+  {
+    "id": 17,
+    "timestamp": "2026-05-20T18:29:29.082807",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "B",
+    "datos_previos": {
+      "estado": "EST.FIN"
+    },
+    "datos_nuevos": {
+      "estado": "EST.PEN"
+    },
+    "descripcion": "Tarea movida de EST.FIN a EST.PEN"
+  },
+  {
+    "id": 18,
+    "timestamp": "2026-05-20T18:31:52.524415",
+    "usuario": "usuario",
+    "accion": "mover",
+    "entidad": "tarea",
+    "entidad_id": "A",
+    "datos_previos": {
+      "estado": "EST.ACT"
+    },
+    "datos_nuevos": {
+      "estado": "EST.FIN"
+    },
+    "descripcion": "Tarea movida de EST.ACT a EST.FIN"
+  },
+  {
+    "id": 19,
+    "timestamp": "2026-05-20T18:44:34.740674",
+    "usuario": "sistema",
+    "accion": "compilar",
+    "entidad": "proyecto",
+    "entidad_id": "main",
+    "datos_previos": null,
+    "datos_nuevos": {
+      "tareas": [
+        {
+          "nombre": "Estudiar",
+          "estado": "CAL:90",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": "HOY",
+          "asignado_a": "luis",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "\"Repasar analisis\"",
+          "tipo": "TAREA.IND",
+          "archivos": [
+            {
+              "filename": "1.png",
+              "size": 201978,
+              "mime_type": "image/png",
+              "modified": 1779320844.2764084
+            }
+          ]
+        },
+        {
+          "nombre": "Prototipo",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": "2026-05-30",
+          "asignado_a": "ana",
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.GRP",
+          "archivos": []
+        },
+        {
+          "nombre": "Limpiar",
+          "estado": "EST.PEN",
+          "prioridad": "—",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "A",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.URG",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        },
+        {
+          "nombre": "B",
+          "estado": "EST.PEN",
+          "prioridad": "PRI.ALT",
+          "fecha_limite": null,
+          "asignado_a": null,
+          "etiquetas": [],
+          "subtareas": [],
+          "descripcion": "",
+          "tipo": "TAREA.IND",
+          "archivos": []
+        }
+      ],
+      "usuarios": [
+        {
+          "nombre": "juana",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "luis",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "ana",
+          "rol": "ROL.COORD",
+          "sesion": "activa"
+        },
+        {
+          "nombre": "juan",
+          "rol": "ROL.MIEM",
+          "sesion": "inactiva"
+        },
+        {
+          "nombre": "maria",
+          "rol": "ROL.MIEM",
+          "sesion": "activa"
+        }
+      ],
+      "grupos": [
+        {
+          "nombre": "Alfa",
+          "miembros": [
+            "ana"
+          ]
+        }
+      ],
+      "listas": [
+        {
+          "nombre": "Casa",
+          "tareas": [
+            "Limpiar"
+          ],
+          "descripcion": "Tareas hogar"
+        }
+      ],
+      "vistas": [
+        {
+          "nombre": "Mis_urgentes"
+        }
+      ],
+      "stats": {
+        "total": 5,
+        "completadas": 0,
+        "pendientes": 5,
+        "prioridades": {
+          "PRI.URG": 2,
+          "PRI.ALT": 2,
+          "PRI.MED": 0,
+          "PRI.BAJ": 0
+        }
+      }
+    },
+    "descripcion": "Compilación exitosa del código DSL"
+  }
+]
